@@ -1,0 +1,26 @@
+
+.ql-toolbar {
+  background-color: #f0fdf4 !important; /* light green background */
+  border-color: #22c55e !important; /* green border */
+}
+
+.ql-toolbar .ql-stroke {
+  stroke: #15803d !important; /* darker green for icons */
+}
+
+.ql-toolbar .ql-fill {
+  fill: #15803d !important;
+}
+
+.ql-toolbar .ql-picker {
+  color: #15803d !important;
+}
+
+.ql-toolbar .ql-picker-options {
+  background-color: #f0fdf4 !important;
+  border-color: #22c55e !important;
+}
+
+.ql-container {
+  border-color: #22c55e !important;
+}
