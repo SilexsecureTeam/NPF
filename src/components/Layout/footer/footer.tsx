@@ -59,9 +59,9 @@ export default function Footer() {
             </div>
 
             <div>
-              <div className="text-2xl font-bold w-full md:max-w-[350px]">
+              {/* <div className="text-2xl font-bold w-full md:max-w-[350px]">
                 <img src={'/assets/logo/footer-logo-cropped.png'} alt="NPF Logo" />
-              </div>
+              </div> */}
 
               <h1 className=" text-2xl md:text-4xl font-bold pt-[-10px] text-white mt-6">Subscribe for our </h1>
               <h1 className="text-2xl md:text-4xl font-bold text-white">newsletter</h1>

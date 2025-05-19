@@ -5,6 +5,7 @@ import CarouselComponent from "../Ui/carousel";
 import { Link } from "react-router-dom";
 import { useContext } from "react";
 import { NavigationContext } from "../Ui/NavigationContext";
+import { BiCertification } from "react-icons/bi";
 
 export default function Home() {
     const services = getCardDetails();
@@ -72,7 +73,7 @@ export default function Home() {
                     <div className=" bg-blue-50 sm:py-16 px-8">
                         <div className="text-center py-10">
                             <p className="text-green-800 text-xl font-bold">Our Services</p>
-                            <h1 className="font-bold text-4xl py-5">Explore Our Services and Experience Protection</h1>
+                            <h1 className="font-bold text-4xl py-5">Explore Our Services and Experience Ultimate Security</h1>
                             <p className="text-gray-600 text-xl">From life to asset coverage, we offer tailored insurance solutions designed to secure what matters most to you.</p>
                         </div>
                         <div className="grid grid-cols-1 md:grid-cols-4 gap-8 px-2 sm:px-16 py-10">
@@ -173,12 +174,27 @@ export default function Home() {
                                         <img src="/assets/images/policy.png" alt="" />
                                     </div>
                                     <div className="text-gray-600">
-                                        <h1 className="text-black-500 text-xl font-bold py-2">Get Your Claimed</h1>
+                                        <h1 className="text-black-500 text-xl font-bold py-2">Get Your Claim</h1>
                                         <p>Access Your Quick and</p>
                                         <p>Streamlined Claims</p>
                                     </div>
                                     <div className="bg-green-800 rounded-full w-8 h-8 px-2 py-2 text-center flex items-center justify-center text-white font-bold absolute top-[-10px] left-1/2 transform -translate-x-1/2 sm:top-[-20px] sm:left-[135px]">4</div>
+                                     <div className="absolute top-[-100px] left-[120px] hidden lg:block">
+                                        <img src="/assets/images/Arrow 2.png" alt="" />
+                                    </div>
                                 </div>
+
+                                <div className="text-center bg-white rounded-md px-5 py-10 w-full sm:w-72 relative sm:bottom-[-60px]">
+                                    <div className="text-center flex justify-center">
+                                        {/* <img src="/assets/images/policy.png" alt="" /> */}
+                                        <BiCertification className="text-green-400 w-10 h-10" />
+                                    </div>
+                                    <div className="text-gray-600">
+                                        <h1 className="text-black-500 text-xl font-bold py-2">Get your certificate/Policy </h1>
+                                    </div>
+                                    <div className="bg-green-800 rounded-full w-8 h-8 px-2 py-2 text-center flex items-center justify-center text-white font-bold absolute top-[-10px] left-1/2 transform -translate-x-1/2 sm:top-[-20px] sm:left-[135px]">5</div>
+                                </div>
+
                             </div>
                         </div>
                     </div>

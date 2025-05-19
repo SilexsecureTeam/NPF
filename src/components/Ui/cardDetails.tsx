@@ -26,7 +26,7 @@ export const getCardDetails = () => {
       },
       {
         imageSrc: "/assets/images/gun.png",
-        title: "Burglary Theft",
+        title: "Burglary/Theft",
         descriptions: ["Covers loss of or damage to the properties insured as a result of forcible entry or exit, attempted theft…."],
         link: "/services/view/3" 
 

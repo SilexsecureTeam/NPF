@@ -284,12 +284,12 @@ const ContactCard = ({ img, title, description }: { img: string, title: string, 
 const contactCardData = [
     {
         title: "Policy Questions",
-        description: "To ask questions about your insurance policy or bond, please contact NPFinsurance.",
+        description: "To ask questions about your insurance policy , please contact NPFinsurance.",
         img: policyImg
     },
     {
         title: "Report a Claim",
-        description: "We guide you through the simple, hassle-free process of securing your coverage.",
+        description: "We guide you through the simple, hassle-free process of securing your claim.",
         img: reportImg
     },
     {

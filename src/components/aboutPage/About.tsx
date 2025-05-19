@@ -45,7 +45,7 @@ export default function About() {
                             comprehensive insurance and risk management solutions. Our experienced leadership team, headed
                             by the Chairman, <span className="font-bold" >Mr. Olufemi Adenaike</span> and
                             <span className="font-bold" > MD/CEO, Mr. Temitayo Oke,</span> brings a combined experience
-                            of over 20 years in Human Resources, Risk, and Asset management across various sectors of the Nigerian
+                            of over 200 years in Human Resources, Risk, and Asset management across various sectors of the Nigerian
                             economy. We are committed to providing innovative and customer-focused insurance solutions at competitive
                             rates. Our team of experts offer exceptional services, expert risk management advice, and tailored
                             insurance products to meet your specific needs. As a trusted insurance partner, NPF Insurance is

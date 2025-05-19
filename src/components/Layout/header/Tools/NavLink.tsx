@@ -28,7 +28,7 @@ const baseLinks = [
   },
   {
     title: "Services",
-    url: "#", // Changed to # to prevent navigation
+    url: "#", //  to prevent navigation
     submenu: [], // Will be populated from API
   },
   {
@@ -283,6 +283,19 @@ export default function NavLinks({ onLinkClick, isServicesDropdownOpen, toggleSe
                   (index !== servicesIndex && dropdownOpen === index)) && (
                   <>
                     <div className="mt-1 space-y-1 bg-white shadow-md rounded-md relative z-20 max-h-[200px] overflow-y-scroll custom-scrollbar">
+                      {/* Add link to parent page if URL is not "#" */}
+                      {link.url !== "#" && (
+                        <NavLink
+                          to={link.url}
+                          className={({ isActive }) => 
+                            `block px-4 py-2 text-gray-700 hover:bg-gray-100 font-semibold border-b ${isActive ? "text-green-600" : ""}`
+                          }
+                          onClick={handleLinkClick}
+                        >
+                          {link.title}
+                        </NavLink>
+                      )}
+                      
                       {/* Show loading indicator if services are still loading */}
                       {index === servicesIndex && servicesLoading ? (
                         <div className="flex justify-center items-center py-4">

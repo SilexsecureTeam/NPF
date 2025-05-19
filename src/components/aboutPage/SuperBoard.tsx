@@ -5,10 +5,10 @@ export default function SuperBoard() {
     const [boardMembers, setBoardMembers] = useState<any[]>([]);
     const [isLoading, setIsLoading] = useState<boolean>(true);
     const [error, setError] = useState<string | null>(null);
-    
+
     // Get the getBoard function from useInsurance hook
     const { getBoard } = useInsurance();
-    
+
     // Fetch board members when component mounts
     useEffect(() => {
         const fetchBoardMembers = async () => {
@@ -24,15 +24,15 @@ export default function SuperBoard() {
                 setIsLoading(false);
             }
         };
-        
+
         fetchBoardMembers();
     }, []);
-    
+
 
     return (
         <>
             {/* <!-- Hero section --> */}
-            <div className="w-full">                
+            <div className="w-full">
                 <div className="bg-[#141B34] w-full min-h-[300px] sm:min-h-[361px] flex flex-col items-center justify-center text-[#F4F4F4]" >
                     <h1 className="text-3xl md:text-4xl xl:text-5xl font-light mb-5">
                         Our Super <span className="font-medium">Board & Team</span>
@@ -41,6 +41,9 @@ export default function SuperBoard() {
                         {`Home -> About Us -> Board of Directors`}
                     </p>
                 </div>
+            </div>
+            <div className="py-4">
+                <h1 className='text-center font-bold text-3xl'>Board of Directors</h1>
             </div>
 
             <section className="py-10 md:py-14 lg:py-16 px-7 md:px-20 lg:px-[160px] xl:px-[200px]">
@@ -56,8 +59,8 @@ export default function SuperBoard() {
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10 items-center">
                         {boardMembers.length > 0 ? (
                             boardMembers.map((member, index) => (
-                                <BoardImageCard 
-                                    key={member.id} 
+                                <BoardImageCard
+                                    key={member.id}
                                     img={`https://dash.npfinsurance.com/uploads/${member.image}`}
                                     name={member.name}
                                     position={member.title}
@@ -92,7 +95,7 @@ const BoardImageCard: React.FC<BoardImageCardProps> = ({ img, name, position, bo
                 <img
                     src={img}
                     alt={name}
-                    className={`w-full max-h-[350px] lg:max-h-[400px] object-cover ${border ? "border border-[#000000]": "" }`}
+                    className={`w-full max-h-[350px] lg:max-h-[400px] object-cover ${border ? "border border-[#000000]" : ""}`}
                 />
             </div>
             <div className="mt-3 lg:mt-4">

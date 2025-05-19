@@ -1,6 +1,6 @@
 import heroImg from "../../assets/insurance/hero.png";
 import { useEffect, useState } from "react";
-//import PersonalDetails from "./Tools/PersonalDetails";
+// import PersonalDetails from "./Tools/PersonalDetails";
 import VehicleDetails from "./Tools/VehicleDetails";
 import UploadDetails from "./Tools/UploadDetails";
 import Checkout from "./Tools/Checkout";
@@ -9,37 +9,99 @@ import { useNavigate, useSearchParams } from "react-router-dom";
 import { baseUrl } from "@/services/axios-client";
 import { toast } from "react-toastify";
 
+// Form storage key
+const FORM_STORAGE_KEY = "motorInsuranceFormData";
+
 export default function MotorInsuranceQuote() {
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
+  
+  // Load saved form state on component mount
+  const loadSavedFormState = () => {
+    const savedData = localStorage.getItem(FORM_STORAGE_KEY);
+    if (savedData) {
+      try {
+        const parsedData = JSON.parse(savedData);
+        setCurrentStep(parsedData.currentStep || 2);
+        setVehicleData(parsedData.vehicleData || null);
+        setSelectedIdType(parsedData.selectedIdType || "");
+        // Upload data contains File objects which can't be serialized to JSON
+        // We'll handle this separately in the individual component
+        return true;
+      } catch (error) {
+        console.error("Error loading saved form data", error);
+      }
+    }
+    return false;
+  };
+
+  // Save current form state
+  const saveFormState = (step: number, vData: any, idType: string) => {
+    const dataToSave = {
+      currentStep: step,
+      vehicleData: vData,
+      selectedIdType: idType,
+      // We don't save uploadData here since File objects can't be serialized
+      lastUpdated: new Date().toISOString()
+    };
+    
+    localStorage.setItem(FORM_STORAGE_KEY, JSON.stringify(dataToSave));
+  };
+
+  // Clear saved form when completed
+  const clearSavedForm = () => {
+    localStorage.removeItem(FORM_STORAGE_KEY);
+  };
+  
   const [currentStep, setCurrentStep] = useState(2);
-  const [userData, setUserData] = useState(null);
-  const [searchParams] = useSearchParams(); // Get search params from URL
-  console.log(userData)
   const [vehicleData, setVehicleData] = useState(null);
   const [uploadData, setUploadData] = useState<{ nin: File | null; vehicleLicense: File | null; utilityBill: File | null; } | null>({
     nin: null,
     vehicleLicense: null,
     utilityBill: null,
   });
-  const [selectedIdType, setSelectedIdType] = useState<string>(""); // Add state for selectedIdType
+  const [selectedIdType, setSelectedIdType] = useState<string>("");
+  const [pageDisplay, setPageDisplay] = useState<string>('normal');
 
+  // Handle step changes with persistence
+  const handleStepChange = (newStep: number, newVehicleData?: any) => {
+    setCurrentStep(newStep);
+    
+    // Save data when moving to a new step
+    if (newVehicleData) {
+      setVehicleData(newVehicleData);
+      saveFormState(newStep, newVehicleData, selectedIdType);
+    } else {
+      saveFormState(newStep, vehicleData, selectedIdType);
+    }
+    
+    // Clear saved data on form completion
+    if (newStep === 5) {
+      clearSavedForm();
+    }
+  };
 
-
+  // Load user data on component mount
+  // Load user data on component mount
   useEffect(() => {
     const storedUserData = sessionStorage.getItem("userData");
 
     if (!storedUserData) {
-      // User is not authenticated, store redirection flag
       sessionStorage.setItem("cameFromMotorInsurance", "true");
-      navigate("/auth/signup"); // Redirect to signup/login
+      navigate("/auth/signup");
     } else {
-      setUserData(JSON.parse(storedUserData));
+      // Load saved form progress after authenticating
+      loadSavedFormState();
     }
   }, [navigate]);
+  // Save current form state whenever relevant data changes
+  useEffect(() => {
+    if (vehicleData || currentStep > 2) {
+      saveFormState(currentStep, vehicleData, selectedIdType);
+    }
+  }, [currentStep, vehicleData, selectedIdType]);
 
-
-  const [pageDisplay, setPageDisplay] = useState<string>('normal');
-  //For reference after payment
+  // Payment verification logic
   useEffect(() => {
     const token = sessionStorage.getItem("authToken")
     const paymentReference = searchParams.get("reference");
@@ -49,7 +111,6 @@ export default function MotorInsuranceQuote() {
 
     if (paymentReference) {
       setPageDisplay('processingPayment');
-      // Call backend to verify payment
 
       const verifyPayment = async () => {
         try {
@@ -61,20 +122,20 @@ export default function MotorInsuranceQuote() {
             },
           });
           const result = await response.json();
-          console.log(result);
+          
           if((result as any)?.errors){
             setPageDisplay('normal');
             console.error("Error verifying payment:", result.errors);
             toast.error("Error verifying payment. Please try again late or contact support.");
             setTimeout(() => {
               navigate("/dashboard")
-            }
-            , 5000);
+            }, 5000);
             return;
           }
+          
           if (result.payment.status === "success") {
-            // Payment was successful, navigate to dashboard
             setPageDisplay('normal');
+            clearSavedForm(); // Clear form data on successful payment
             navigate("/dashboard/home");
           } else if (result.payment.status === "pending" && retries < maxRetries) {
             setTimeout(verifyPayment, 5000)
@@ -82,14 +143,14 @@ export default function MotorInsuranceQuote() {
           } else {
             setPageDisplay('normal');
             setCurrentStep(4);
-            
           }
         } catch (error) {
           setPageDisplay('normal');
           console.error("Error verifying payment:", error);
-          setCurrentStep(4); // Handle failure case
+          setCurrentStep(4);
         }
       };
+      
       verifyPayment();
     }
   }, [searchParams, navigate]);
@@ -111,45 +172,51 @@ export default function MotorInsuranceQuote() {
       </>
     );
   }
+  
   return (
     <>
-      {/* <!-- Hero section --> */}
       <div className="w-full">
         <img src={heroImg} alt="Hero img" className="w-full max-h-[500px] md:max-h-[700px]" />
       </div>
       <main className="bg-[#1F834008] py-8 md:py-12 px-7 md:px-20 lg:px-[160px] xl:px-[200px]">
-        {/* {currentStep === 1 && (
-          <PersonalDetails
-            currentStep={currentStep}
-            setCurrentStep={setCurrentStep}
-            setUserData={setUserData}
-            initialValues={userData}
-            setSelectedIdType={setSelectedIdType} // Pass setSelectedIdType to PersonalDetails
-          />
-        )} */}
         {currentStep === 2 && (
           <VehicleDetails
             currentStep={currentStep}
-            setCurrentStep={setCurrentStep}
-            setVehicleData={setVehicleData}
+            setCurrentStep={(step) => {
+              const newStep = typeof step === 'function' ? step(currentStep) : step;
+              handleStepChange(newStep, vehicleData);
+            }}
+            setVehicleData={(data) => {
+              setVehicleData(data);
+              saveFormState(currentStep, data, selectedIdType);
+            }}
             initialValues={vehicleData}
-            setSelectedIdType={setSelectedIdType} // Pass setSelectedIdType to PersonalDetails
+            setSelectedIdType={(type) => {
+              const newType = typeof type === 'function' ? type(selectedIdType) : type;
+              setSelectedIdType(newType);
+              saveFormState(currentStep, vehicleData, newType);
+            }}
           />
         )}
         {currentStep === 3 && (
           <UploadDetails
             currentStep={currentStep}
-            setCurrentStep={setCurrentStep}
+            setCurrentStep={(step) => {
+              const newStep = typeof step === 'function' ? step(currentStep) : step;
+              handleStepChange(newStep, vehicleData);
+            }}
             setUploadData={setUploadData}
             initialValues={uploadData || { nin: null, vehicleLicense: null, utilityBill: null }}
-            selectedIdType={selectedIdType} 
+            selectedIdType={selectedIdType}
           />
         )}
         {currentStep === 4 && (
           <Checkout
             currentStep={currentStep}
-            setCurrentStep={setCurrentStep}
-            /* userData={userData} */
+            setCurrentStep={(step) => {
+              const newStep = typeof step === 'function' ? step(currentStep) : step;
+              handleStepChange(newStep, vehicleData);
+            }}
             setVehicleData={setVehicleData}
             vehicleData={vehicleData}
             uploadData={uploadData}
@@ -158,7 +225,10 @@ export default function MotorInsuranceQuote() {
         {currentStep === 5 && (
           <SuccessfulPayment
             currentStep={currentStep}
-            setCurrentStep={setCurrentStep}
+            setCurrentStep={(step) => {
+              setCurrentStep(step);
+              clearSavedForm(); // Clear saved form on completion
+            }}
           />
         )}
       </main>
