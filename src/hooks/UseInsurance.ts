@@ -1257,144 +1257,145 @@ export default function useInsurance() {
         }
     }
 
-const createCarMaker = async (name: string) => {
-    try {
-        setLoading(true);
-        await client.post('/car/maker', { name });
-        return Promise.resolve("Car maker created successfully");
-    }
-    catch (error: any) {
-        const resError = error.response?.data;
-        const errorMessage = resError?.message || resError?.data;
-        console.log(errorMessage);
-        return Promise.reject(errorMessage || "Failed to create car maker");
-    }
-}
-
-const updateCarMaker = async (id: number, name: string) => {
-    try {
-        setLoading(true);
-        await client.put(`/car/maker/${id}`, { name });
-        return Promise.resolve("Car maker updated successfully");
-    }
-    catch (error: any) {
-        const resError = error.response?.data;
-        const errorMessage = resError?.message || resError?.data;
-        console.log(errorMessage);
-        return Promise.reject(errorMessage || "Failed to update car maker");
-    }
-}
-
-const deleteCarMaker = async (id: number) => {
-    try {
-        setLoading(true);
-        await client.delete(`/car/maker/${id}`);
-        return Promise.resolve("Car maker deleted successfully");
-    }
-    catch (error: any) {
-        const resError = error.response?.data;
-        const errorMessage = resError?.message || resError?.data;
-        console.log(errorMessage);
-        return Promise.reject(errorMessage || "Failed to delete car maker");
-    }
-}
-
-const SubsribeToNewsLetter = async (email: string) => {
-    try {
-        setLoading(true);
-        await client.post('/newsletter-subscriptions', { email });
-        return Promise.resolve("Subscribed to newsletter successfully");
-    }
-    catch (error: any) {
-        const resError = error.response?.data;
-        const errorMessage = resError?.message || resError?.data;
-        console.log(errorMessage);
-        return Promise.reject(errorMessage || "Failed to subscribe to newsletter");
+    const createCarMaker = async (name: string) => {
+        try {
+            setLoading(true);
+            await client.post('/car/maker', { name });
+            return Promise.resolve("Car maker created successfully");
+        }
+        catch (error: any) {
+            const resError = error.response?.data;
+            const errorMessage = resError?.message || resError?.data;
+            console.log(errorMessage);
+            return Promise.reject(errorMessage || "Failed to create car maker");
+        }
     }
 
-    finally {
-        setLoading(false);
-    }
-}
-
-const getNewsLetters = async () => {
-    try {
-        setLoading(true);
-        const res = await client.get('/newsletter-subscriptions');
-        return res?.data;
-    } catch (error: any) {
-        const resError = error.response?.data;
-        const errorMessage = resError?.message || resError?.data;
-        console.log(errorMessage);
-        return Promise.reject(errorMessage || "Failed to fetch newsletter subscriptions");
-    } finally {
-        setLoading(false);
-    }
-}
-
-const getNewsLettersById = async (id: number) => {
-    try {
-        setLoading(true);
-        const res = await client.get(`/newsletter-subscriptions/${id}`);
-        return res?.data?.data;
-    } catch (error: any) {
-        const resError = error.response?.data;
-        const errorMessage = resError?.message || resError?.data;
-        console.log(errorMessage);
-        return Promise.reject(errorMessage || "Failed to fetch newsletter subscription");
-    } finally {
-        setLoading(false);
-    }
-}
-
-const deleteNewsLetterById = async (id: number) => {
-    try {
-        setLoading(true);
-        const res = await client.delete(`/newsletter-subscriptions/${id}`);
-        return res?.data?.data;
-    } catch (error: any) {
-        const resError = error.response?.data;
-        const errorMessage = resError?.message || resError?.data;
-        console.log(errorMessage);
-        return Promise.reject(errorMessage || "Failed to fetch newsletter subscription");
-    } finally {
-        setLoading(false);
-    }
-}
-
-const getFeedBackFrom = async () => {
-    try {
-        setLoading(true);
-        const res = await client.get("/feedback");  
-        return res?.data;
-    } catch (error: any) {
-        const resError = error.response?.data;
-        const errorMessage = resError?.message || resError?.data;
-        console.log(errorMessage);
-        return Promise.reject(errorMessage || "Failed to fetch feedback");
-    } finally {
-        setLoading(false);
-    }
-}
-
-const SubmitToNewsLetter = async (email: string) => {
-    try {
-        setLoading(true);
-        await client.post('/newsletter-subscriptions', { email });
-        return Promise.resolve("Subscribed to newsletter successfully");
-    }
-    catch (error: any) {
-        const resError = error.response?.data;
-        const errorMessage = resError?.message || resError?.data;
-        console.log(errorMessage);
-        return Promise.reject(errorMessage || "Failed to subscribe to newsletter");
+    const updateCarMaker = async (id: number, name: string) => {
+        try {
+            setLoading(true);
+            await client.put(`/car/maker/${id}`, { name });
+            return Promise.resolve("Car maker updated successfully");
+        }
+        catch (error: any) {
+            const resError = error.response?.data;
+            const errorMessage = resError?.message || resError?.data;
+            console.log(errorMessage);
+            return Promise.reject(errorMessage || "Failed to update car maker");
+        }
     }
 
-    finally {
-        setLoading(false);
+    const deleteCarMaker = async (id: number) => {
+        try {
+            setLoading(true);
+            await client.delete(`/car/maker/${id}`);
+            return Promise.resolve("Car maker deleted successfully");
+        }
+        catch (error: any) {
+            const resError = error.response?.data;
+            const errorMessage = resError?.message || resError?.data;
+            console.log(errorMessage);
+            return Promise.reject(errorMessage || "Failed to delete car maker");
+        }
     }
-}
 
+    const SubsribeToNewsLetter = async (email: string) => {
+        try {
+            setLoading(true);
+            await client.post('/newsletter-subscriptions', { email });
+            return Promise.resolve("Subscribed to newsletter successfully");
+        }
+        catch (error: any) {
+            const resError = error.response?.data;
+            const errorMessage = resError?.message || resError?.data;
+            console.log(errorMessage);
+            return Promise.reject(errorMessage || "Failed to subscribe to newsletter");
+        }
+
+        finally {
+            setLoading(false);
+        }
+    }
+
+    const getNewsLetters = async () => {
+        try {
+            setLoading(true);
+            const res = await client.get('/newsletter-subscriptions');
+            return res?.data;
+        } catch (error: any) {
+            const resError = error.response?.data;
+            const errorMessage = resError?.message || resError?.data;
+            console.log(errorMessage);
+            return Promise.reject(errorMessage || "Failed to fetch newsletter subscriptions");
+        } finally {
+            setLoading(false);
+        }
+    }
+
+    const getNewsLettersById = async (id: number) => {
+        try {
+            setLoading(true);
+            const res = await client.get(`/newsletter-subscriptions/${id}`);
+            return res?.data?.data;
+        } catch (error: any) {
+            const resError = error.response?.data;
+            const errorMessage = resError?.message || resError?.data;
+            console.log(errorMessage);
+            return Promise.reject(errorMessage || "Failed to fetch newsletter subscription");
+        } finally {
+            setLoading(false);
+        }
+    }
+
+    const deleteNewsLetterById = async (id: number) => {
+        try {
+            setLoading(true);
+            const res = await client.delete(`/newsletter-subscriptions/${id}`);
+            return res?.data?.data;
+        } catch (error: any) {
+            const resError = error.response?.data;
+            const errorMessage = resError?.message || resError?.data;
+            console.log(errorMessage);
+            return Promise.reject(errorMessage || "Failed to fetch newsletter subscription");
+        } finally {
+            setLoading(false);
+        }
+    }
+
+    const getFeedBackFrom = async () => {
+        try {
+            setLoading(true);
+            const res = await client.get("/feedback");
+            return res?.data;
+        } catch (error: any) {
+            const resError = error.response?.data;
+            const errorMessage = resError?.message || resError?.data;
+            console.log(errorMessage);
+            return Promise.reject(errorMessage || "Failed to fetch feedback");
+        } finally {
+            setLoading(false);
+        }
+    }
+
+    const SubmitToNewsLetter = async (email: string) => {
+        try {
+            setLoading(true);
+            await client.post('/newsletter-subscriptions', { email });
+            return Promise.resolve("Subscribed to newsletter successfully");
+        }
+        catch (error: any) {
+            const resError = error.response?.data;
+            const errorMessage = resError?.message || resError?.data;
+            console.log(errorMessage);
+            return Promise.reject(errorMessage || "Failed to subscribe to newsletter");
+        }
+
+        finally {
+            setLoading(false);
+        }
+    }
+
+   
     return {
         loading,
         submitUserDetails,

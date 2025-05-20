@@ -58,6 +58,7 @@ import AdminPackageCategories from "./pages/Admin/AdminPackages/AdminPackages";
 import AdminVehicleManagement from "./pages/Admin/AdminVehicles/AdminVehicles";
 import DashboardPaymentPage from "./pages/Dashboard/DashboardPayment/DashboardPayment";
 import AdminFeedback from "./pages/Admin/AdminFeedback/AdminFeedback";
+import AdminManagement from "./pages/Admin/AdminHome/AdminDeletePage";
 
 function App() {
   return (
@@ -126,6 +127,7 @@ function App() {
               <Route path="/admin/dashboard/packages" element={<AdminPackageCategories />} />
               <Route path="/admin/dashboard/vehicle" element={<AdminVehicleManagement />} />
               <Route path="/admin/dashboard/feedback" element={<AdminFeedback />} />
+              <Route path="/admin/delete-admin" element={<AdminManagement />} />
 
               {/* Admin Auth Routes */}
               <Route path="/admin/dashboard/auth/signup" element={<AdminSignupPage />} />

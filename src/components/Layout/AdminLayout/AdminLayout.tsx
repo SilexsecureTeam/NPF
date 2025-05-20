@@ -48,8 +48,8 @@ const AdminSidebar = ({
     const { AdminLogout } = useAdminAuth();
 
     // Get admin authentication state from Redux store
-    const { user, isAuthenticated, token } = useSelector((state: RootState) => state.auth);
-
+    const { user, isAuthenticated } = useSelector((state: RootState) => state.auth);
+    const token = localStorage.getItem("token");
     // Combine menu items based on admin role
     const combinedMenuItems = [...regularMenuItems, ...(isSuperAdmin ? superAdminMenuItems : [])];
 
@@ -182,28 +182,28 @@ const Header = ({
         const fetchAdminDetails = async () => {
             try {
                 const response = await getAdminDetails();
-                
+
                 // Log entire response for debugging
                 console.log("Full admin details response:", response?.data);
-                
+
                 // Check different properties that might indicate super admin status
-                const isSuperAdminFromApi = 
-                    response?.data?.use_type === "superadmin" 
-                
+                const isSuperAdminFromApi =
+                    response?.data?.use_type === "superadmin"
+
                 console.log("Is super admin determined from API:", isSuperAdminFromApi);
-                
+
                 // Update local state
                 setApiSuperAdmin(isSuperAdminFromApi);
-                
+
                 // Update parent component state
                 setIsSuperAdmin(isSuperAdminFromApi);
-                
+
                 // Store in localStorage for persistence
                 localStorage.setItem('isSuperAdmin', isSuperAdminFromApi ? 'true' : 'false');
-                
+
             } catch (error) {
                 console.error("Error fetching admin details:", error);
-                
+
                 // Fall back to localStorage if API call fails
                 const storedStatus = localStorage.getItem('isSuperAdmin') === 'true';
                 setApiSuperAdmin(storedStatus);
@@ -340,6 +340,19 @@ const Header = ({
                                 >
                                     Create new Admin
                                 </button>
+
+
+                            )}
+
+                            {apiSuperAdmin && (
+                                <button
+                                    onClick={() => navigate("/admin/delete-admin")}
+                                    className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                                >
+                                    Delete Admin
+                                </button>
+
+
                             )}
 
                             <hr className="my-1" />
@@ -366,7 +379,7 @@ const AdminDashboardLayout = ({ children }: { children: ReactNode }) => {
         return localStorage.getItem('isSuperAdmin') === 'true' || false;
     });
     const navigate = useNavigate();
-    
+
     // Emergency override for testing - uncomment if needed
     // useEffect(() => {
     //    setIsSuperAdmin(true);

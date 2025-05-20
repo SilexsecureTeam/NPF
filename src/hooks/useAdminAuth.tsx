@@ -244,7 +244,6 @@ export default function useAdminAuth() {
                     "Authorization": `Bearer ${token}`
                 },
             });
-            console.log(response);
             
             return response.data;
         } catch (error: any) {
@@ -360,6 +359,53 @@ export default function useAdminAuth() {
     };
     
 
+
+     const getAllAdmins = async () => {
+        try {
+            const token = localStorage.getItem("token");
+            console.log(token);
+            setLoading(true);
+            const res = await client.get('/admin/users' , {
+               headers: {
+                    "Authorization": `Bearer ${token}`  
+                },
+            }
+            );
+            return res?.data;
+        } catch (error: any) {
+            const resError = error.response?.data;
+            const errorMessage = resError?.message || resError?.data;
+            console.log(errorMessage);
+            return Promise.reject(errorMessage || "Failed to fetch admins");
+        } finally {
+            setLoading(false);
+        }
+    }
+
+    const deleteAdmin = async (adminId: number) => {
+        try {
+            const token = localStorage.getItem("token");
+            setLoading(true);
+            const res = await client.delete(`/admin/users/delete/${adminId}`, {
+                   headers: {
+                    "Authorization": `Bearer ${token}`  
+                },
+            }
+            )
+                console.log(res);
+                return Promise.resolve("Admin deleted successfully");
+        } catch (error: any) {
+            const resError = error.response?.data;
+            const errorMessage = resError?.message || resError?.data;
+            console.log(errorMessage);
+            return Promise.reject(errorMessage || "Failed to delete admin");
+        }
+        finally {
+            setLoading(false);
+        }
+    }
+                
+
     return {
         loading,
         otpMail,
@@ -374,5 +420,7 @@ export default function useAdminAuth() {
         getAdminDetails,
         VerifyAdminLogin,
         LoginhandleResendOTP,
+        getAllAdmins,
+        deleteAdmin,
     };
 }
