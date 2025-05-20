@@ -3,7 +3,7 @@ import heroImg from "../../assets/about/hero2.png"
 import visionImg from "../../assets/about/vision2.png"
 import ahemenImg from "../../assets/about/ahemen.png";
 import temitayoImg from "../../assets/about/temitayo3.png";
-import juliusImg from "../../assets/about/julius.png"
+// import juliusImg from "../../assets/about/julius.png"
 import ekechukwuImg from "../../assets/about/ekechukwu.png";
 import objectiveImg from "../../assets/about/objective.png";
 import regulatorImg from "../../assets/about/regulator.svg";
@@ -258,11 +258,7 @@ const teamMembers = [
         img: ahemenImg,
         border: true,
     },
-    {
-        name: "Julius Adedeji Esq",
-        position: "Company Secretary",
-        img: juliusImg
-    }
+    
 ]
 
 
