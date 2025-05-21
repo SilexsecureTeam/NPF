@@ -48,7 +48,6 @@ import { AdminForgotPasswordEmail } from "./components/AdminAuth/AdminForgetPwdM
 import AdminResetPassword from "./components/AdminAuth/AdminResetPwd";
 import AdminChangePassword from "./components/AdminAuth/AdminChangepwd";
 import AdminUserDetails from "./pages/Admin/AdminHome/AdminProfile";
-import AdminSlider from "./pages/Admin/AdminPages/AdminSLider";
 import { AllUserPayments } from "./pages/Admin/AdminPages/UserPayments";
 import PaymentDetail from "./pages/Admin/AdminPages/UserPaymentDetail";
 import { PageVisibilityProvider } from "./components/Ui/PageContext";
@@ -59,6 +58,7 @@ import AdminVehicleManagement from "./pages/Admin/AdminVehicles/AdminVehicles";
 import DashboardPaymentPage from "./pages/Dashboard/DashboardPayment/DashboardPayment";
 import AdminFeedback from "./pages/Admin/AdminFeedback/AdminFeedback";
 import AdminManagement from "./pages/Admin/AdminHome/AdminDeletePage";
+import AdminSlider from "./pages/Admin/AdminPages/AdminSLider";
 
 function App() {
   return (

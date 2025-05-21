@@ -132,3 +132,10 @@ export interface PackageSubCategoryValues{
     tppd_limit_price: number,
     premium_price: number
 }
+
+export interface CarouselDataValues{
+  image:File,
+  title:string,
+  description:string,
+  status:boolean
+}

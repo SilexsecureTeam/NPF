@@ -1,266 +1,413 @@
-import { useState, useEffect, useRef } from "react";
-import { toast } from "react-toastify";
-import AdminDashboardLayout from "@/components/Layout/AdminLayout/AdminLayout";
-import { FaPlus, FaTrash, FaUpload } from "react-icons/fa";
-import useInsurance from "@/hooks/UseInsurance";
-// Simpler image interface
-interface SliderImage {
-    id: number;
-    image: string; // Changed from image_url to image
-    created_at: string;
-    updated_at: string;
-    is_active: number;
-  }
+import React, { useState, useEffect } from 'react';
+import { toast } from 'react-toastify';
+import { FaTrashAlt, FaEye, FaEyeSlash } from 'react-icons/fa';
+import AdminDashboardLayout from '@/components/Layout/AdminLayout/AdminLayout';
+import useInsurance from '@/hooks/UseInsurance';
+import { CarouselDataValues } from '@/types';
 
-const AdminSlider = () => {
-    const [sliderImages, setSliderImages] = useState<SliderImage[]>([]);
-    const [loading, setLoading] = useState(false);
-    const [uploading, setUploading] = useState(false);
-    const [imageFile, setImageFile] = useState<File | null>(null);
-    const [imagePreview, setImagePreview] = useState<string | null>(null);
-    const fileInputRef = useRef<HTMLInputElement>(null);
+interface CarouselItem {
+  id: number;
+  image: string;
+  title: string;
+  description: string;
+  status: boolean;
+  created_at: string;
+}
 
-    // Get API functions from useInsurance hook
-    const { createSliderImage, getSlider, deleteSliderById } = useInsurance();
+// Define image size constraints
+const MAX_FILE_SIZE = 2 * 1024 * 1024; // 2MB maximum
 
-    // Fetch slider images on component mount
-    useEffect(() => {
-        fetchSliderImages();
-    }, []);
+const AdminSlider: React.FC = () => {
+  const { createCarousel, getCarousel, deleteCarousel } = useInsurance();
+  const [carouselItems, setCarouselItems] = useState<CarouselItem[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [deleteConfirmation, setDeleteConfirmation] = useState<number | null>(null);
+  const [previewImage, setPreviewImage] = useState<string | null>(null);
+  
+  const [formData, setFormData] = useState<CarouselDataValues>({
+    image: null as unknown as File,
+    title: '',
+    description: '',
+    status: true
+  });
 
-    // Fetch all slider images
-    const fetchSliderImages = async () => {
-        try {
-            setLoading(true);
-            const images = await getSlider();
-            console.log(images);
+  // Fetch carousel items
+  const fetchCarouselItems = async () => {
+    try {
+      setLoading(true);
+      const response = await getCarousel();
+      if (response && response.data) {
+        setCarouselItems(response.data);
+      }
+    } catch (error) {
+      console.error('Error fetching carousel items:', error);
+      toast.error('Failed to load carousel items');
+    } finally {
+      setLoading(false);
+    }
+  };
 
-            setSliderImages(images);
-        } catch (error) {
-            console.error("Error fetching slider images:", error);
-        } finally {
-            setLoading(false);
-        }
-    };
+  useEffect(() => {
+    fetchCarouselItems();
+  }, []);
 
-    // Handle file change
-    const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        if (e.target.files && e.target.files[0]) {
-            const file = e.target.files[0];
+  // Handle form input changes
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const { name, value, type } = e.target;
+    
+    if (type === 'checkbox') {
+      const checked = (e.target as HTMLInputElement).checked;
+      setFormData({
+        ...formData,
+        [name]: checked
+      });
+    } else {
+      setFormData({
+        ...formData,
+        [name]: value
+      });
+    }
+  };
 
-            // File validation
-            if (!file.type.match('image.*')) {
-                toast.error("Please select an image file");
-                return;
+  // Handle file input change
+  const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files && e.target.files[0]) {
+      const file = e.target.files[0];
+      
+      // Check file size
+      if (file.size > MAX_FILE_SIZE) {
+        toast.error(`Image size exceeds 2MB. Please choose a smaller file.`);
+        e.target.value = '';
+        return;
+      }
+      
+      setFormData({
+        ...formData,
+        image: file
+      });
+
+      // Create preview URL
+      const reader = new FileReader();
+      reader.onload = () => {
+        setPreviewImage(reader.result as string);
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
+  // Handle form submission
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    
+    if (!formData.image) {
+      toast.error('Please select an image');
+      return;
+    }
+
+    try {
+      setIsSubmitting(true);
+      
+      // Create a modified version with status as 1 or 0
+      const modifiedData = {
+        title: formData.title,
+        description: formData.description,
+        image: formData.image,
+        status: formData.status ? 1 : 0  // Convert boolean to 1 or 0
+      };
+      
+      console.log("Submitting with status:", modifiedData.status);
+      
+      // Submit form data using the createCarousel function
+      await toast.promise(
+        createCarousel(modifiedData as any),
+        {
+          pending: 'Creating carousel item...',
+          success: {
+            render() {
+              fetchCarouselItems(); // Refresh the list
+              // Reset form
+              setFormData({
+                image: null as unknown as File,
+                title: '',
+                description: '',
+                status: true
+              });
+              setPreviewImage(null);
+              return 'Carousel item created successfully!';
             }
-
-            // File size validation (5MB max)
-            if (file.size > 5 * 1024 * 1024) {
-                toast.error("Image must be less than 5MB");
-                return;
+          },
+          error: {
+            render({ data }) {
+              console.error("API Error:", data);
+              return typeof data === 'string' ? data : 'Failed to create carousel item';
             }
-
-            setImageFile(file);
-            setImagePreview(URL.createObjectURL(file));
+          }
         }
-    };
+      );
+    } catch (error) {
+      console.error('Error creating carousel item:', error);
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
 
-    // Clear selected image
-    const clearSelectedImage = () => {
-        if (imagePreview) {
-            URL.revokeObjectURL(imagePreview);
+  // Handle delete confirmation
+  const handleDeleteClick = (id: number) => {
+    setDeleteConfirmation(id);
+  };
+
+  const cancelDelete = () => {
+    setDeleteConfirmation(null);
+  };
+
+  const confirmDelete = (id: number) => {
+    setDeleteConfirmation(null);
+    
+    toast.promise(
+      deleteCarousel(id),
+      {
+        pending: 'Deleting carousel item...',
+        success: {
+          render() {
+            fetchCarouselItems(); // Refresh the list after deletion
+            return 'Carousel item deleted successfully!';
+          }
+        },
+        error: {
+          render({ data }) {
+            return typeof data === 'string' ? data : 'Failed to delete carousel item';
+          }
         }
-        setImageFile(null);
-        setImagePreview(null);
-        if (fileInputRef.current) {
-            fileInputRef.current.value = "";
-        }
-    };
-
-    // Upload image
-    const handleUploadImage = async () => {
-        if (!imageFile) {
-            toast.error("Please select an image first");
-            return;
-        }
-
-        try {
-            setUploading(true);
-            await createSliderImage(imageFile);
-            toast.success("Slider image uploaded successfully");
-            clearSelectedImage();
-            fetchSliderImages(); // Refresh the list after upload
-        } catch (error: any) {
-            toast.error(error || "Failed to upload image");
-            console.error("Upload error:", error);
-        } finally {
-            setUploading(false);
-        }
-    };
-
-    // Delete image
-    const handleDeleteImage = async (id: number) => {
-        if (!window.confirm("Are you sure you want to delete this slider image?")) {
-            return;
-        }
-
-        try {
-            setLoading(true);
-            await deleteSliderById(id);
-            toast.success("Image deleted successfully");
-            fetchSliderImages(); // Refresh the list after deletion
-        } catch (error) {
-            toast.error("Failed to delete image");
-            console.error("Delete error:", error);
-        } finally {
-            setLoading(false);
-        }
-    };
-
-    return (
-        <AdminDashboardLayout>
-            <div className="py-6">
-                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                    <h1 className="text-2xl font-semibold text-gray-900 mb-6">Homepage Slider Images</h1>
-
-                    {/* Upload Section */}
-                    <div className="bg-white shadow-md rounded-lg p-6 mb-8">
-                        <h2 className="text-lg font-medium text-gray-900 mb-4">Upload New Slider Image</h2>
-
-                        <div className="flex flex-col md:flex-row gap-6">
-                            {/* Image Preview */}
-                            <div className="w-full md:w-1/2">
-                                {imagePreview ? (
-                                    <div className="relative border rounded-lg overflow-hidden h-64">
-                                        <img
-                                            src={imagePreview}
-                                            alt="Preview"
-                                            className="w-full h-full object-contain"
-                                        />
-                                        <button
-                                            onClick={clearSelectedImage}
-                                            className="absolute top-2 right-2 bg-red-600 text-white p-2 rounded-full hover:bg-red-700"
-                                        >
-                                            <FaTrash size={14} />
-                                        </button>
-                                    </div>
-                                ) : (
-                                    <div
-                                        onClick={() => fileInputRef.current?.click()}
-                                        className="border-2 border-dashed border-gray-300 rounded-lg p-12 flex flex-col items-center justify-center cursor-pointer h-64"
-                                    >
-                                        <FaUpload className="text-gray-400 text-3xl mb-4" />
-                                        <p className="text-gray-500">Click to select an image</p>
-                                        <p className="text-xs text-gray-400 mt-1">PNG, JPG, WEBP up to 5MB</p>
-                                    </div>
-                                )}
-                                <input
-                                    type="file"
-                                    ref={fileInputRef}
-                                    onChange={handleFileChange}
-                                    accept="image/*"
-                                    className="hidden"
-                                />
-                            </div>
-
-                            {/* Upload Button */}
-                            <div className="w-full md:w-1/2 flex flex-col justify-center">
-                                <p className="text-gray-600 mb-4">
-                                    Upload a new image to the homepage slider. For best results, use images with
-                                    dimensions around 1920x600 pixels.
-                                </p>
-                                <div className="flex flex-col sm:flex-row gap-3">
-                                    <button
-                                        type="button"
-                                        onClick={() => fileInputRef.current?.click()}
-                                        className="px-4 py-2 bg-gray-200 text-gray-800 rounded hover:bg-gray-300 flex items-center justify-center"
-                                    >
-                                        <FaPlus className="mr-2" />
-                                        Select Image
-                                    </button>
-                                    <button
-                                        type="button"
-                                        onClick={handleUploadImage}
-                                        disabled={!imageFile || uploading}
-                                        className={`px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700 flex items-center justify-center ${(!imageFile || uploading) ? 'opacity-50 cursor-not-allowed' : ''}`}
-                                    >
-                                        {uploading ? (
-                                            <>
-                                                <svg className="animate-spin -ml-1 mr-2 h-4 w-4 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                                                    <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
-                                                    <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                                                </svg>
-                                                Uploading...
-                                            </>
-                                        ) : (
-                                            <>
-                                                <FaUpload className="mr-2" />
-                                                Upload Image
-                                            </>
-                                        )}
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    {/* Image List */}
-                    <div className="bg-white shadow-md rounded-lg overflow-hidden">
-                        <div className="px-6 py-4 bg-green-600 text-white">
-                            <h2 className="font-medium">Slider Images</h2>
-                        </div>
-
-                        {loading ? (
-                            <div className="flex justify-center items-center p-12">
-                                <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-green-500"></div>
-                            </div>
-                        ) : sliderImages.length === 0 ? (
-                            <div className="text-center p-12">
-                                <svg
-                                    className="mx-auto h-16 w-16 text-gray-400"
-                                    fill="none"
-                                    viewBox="0 0 24 24"
-                                    stroke="currentColor"
-                                >
-                                    <path
-                                        strokeLinecap="round"
-                                        strokeLinejoin="round"
-                                        strokeWidth={1}
-                                        d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"
-                                    />
-                                </svg>
-                                <h3 className="mt-2 text-lg font-medium text-gray-900">No slider images yet</h3>
-                                <p className="mt-1 text-gray-500">Upload your first image using the form above.</p>
-                            </div>
-                        ) : (
-                            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 p-6">
-                                {sliderImages.map((image) => (
-                                    <div key={image.id} className="relative group">
-                                        <div className="overflow-hidden h-48 rounded-lg bg-gray-100">
-                                            <img
-                                                src={`https://dash.npfinsurance.com/uploads/${image.image}`}
-                                                alt="Slider image"
-                                                className="w-full h-full object-cover"
-                                            />
-                                        </div>
-                                        <div className="absolute inset-0 bg-black bg-opacity-40 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
-                                            <button
-                                                onClick={() => handleDeleteImage(image.id)}
-                                                className="p-2 bg-red-600 text-white rounded-full hover:bg-red-700"
-                                                title="Delete image"
-                                            >
-                                                <FaTrash size={16} />
-                                            </button>
-                                        </div>
-                                    </div>
-                                ))}
-                            </div>
-                        )}
-                    </div>
-                </div>
-            </div>
-        </AdminDashboardLayout>
+      }
     );
+  };
+
+  // Format date
+  const formatDate = (dateString: string) => {
+    return new Date(dateString).toLocaleDateString('en-US', {
+      year: 'numeric',
+      month: 'short',
+      day: 'numeric'
+    });
+  };
+
+  return (
+    <AdminDashboardLayout>
+      <div className="container mx-auto px-4 py-8">
+        {/* Add Carousel Item Form */}
+        <div className="bg-white rounded-lg shadow-md overflow-hidden mb-8">
+          <div className="bg-green-600 p-4">
+            <h2 className="text-xl font-bold text-white">Add New Carousel Item</h2>
+          </div>
+          <div className="p-6">
+            <form onSubmit={handleSubmit}>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div className="col-span-1">
+                  <div className="mb-4">
+                    <label className="block text-gray-700 font-medium mb-2">Title</label>
+                    <input
+                      type="text"
+                      name="title"
+                      value={formData.title}
+                      onChange={handleInputChange}
+                      className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-green-500"
+                      placeholder="Enter carousel title"
+                      required
+                    />
+                  </div>
+                  <div className="mb-4">
+                    <label className="block text-gray-700 font-medium mb-2">Description</label>
+                    <textarea
+                      name="description"
+                      value={formData.description}
+                      onChange={handleInputChange}
+                      className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-green-500"
+                      placeholder="Enter carousel description"
+                      rows={4}
+                      required
+                    />
+                  </div>
+                  <div className="mb-4">
+                    <label className="flex items-center">
+                      <input
+                        type="checkbox"
+                        name="status"
+                        checked={formData.status}
+                        onChange={handleInputChange as any}
+                        className="mr-2 h-4 w-4 text-green-600 focus:ring-green-500 border-gray-300 rounded"
+                      />
+                      <span className="text-gray-700">Active</span>
+                    </label>
+                  </div>
+                </div>
+                <div className="col-span-1">
+                  <div className="mb-4">
+                    <label className="block text-gray-700 font-medium mb-2">Image</label>
+                    <input
+                      type="file"
+                      name="image"
+                      onChange={handleFileChange}
+                      className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-green-500"
+                      accept="image/jpeg,image/png,image/webp"
+                      required
+                    />
+                    <div className="mt-2">
+                      <p className="text-sm text-gray-500">
+                        <span className="font-semibold">Required image specs:</span>
+                      </p>
+                      <ul className="list-disc ml-5 text-sm text-gray-500">
+                        <li>Size: Maximum 2MB</li>
+                        <li>Format: JPG, PNG, or WebP</li>
+                      </ul>
+                    </div>
+                  </div>
+                  {previewImage && (
+                    <div className="mt-4">
+                      <p className="text-sm font-medium text-gray-700 mb-2">Preview:</p>
+                      <div className="relative aspect-video bg-gray-100 rounded-md overflow-hidden">
+                        <img
+                          src={previewImage}
+                          alt="Preview"
+                          className="w-full h-full object-cover"
+                        />
+                      </div>
+                    </div>
+                  )}
+                </div>
+              </div>
+              <div className="mt-6 text-right">
+                <button
+                  type="submit"
+                  disabled={isSubmitting}
+                  className="px-6 py-2 bg-green-600 text-white rounded-md hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 disabled:opacity-50"
+                >
+                  {isSubmitting ? 'Adding...' : 'Add Carousel Item'}
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+
+        {/* Carousel Items List */}
+        <div className="bg-white rounded-lg shadow-md overflow-hidden">
+          <div className="bg-green-600 p-4">
+            <h2 className="text-xl font-bold text-white">Carousel Items</h2>
+          </div>
+          
+          {loading ? (
+            <div className="flex justify-center items-center h-64">
+              <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-green-600"></div>
+            </div>
+          ) : carouselItems.length === 0 ? (
+            <div className="p-6 text-center text-gray-500">
+              No carousel items found
+            </div>
+          ) : (
+            <div className="overflow-x-auto">
+              <table className="min-w-full divide-y divide-gray-200">
+                <thead className="bg-gray-50">
+                  <tr>
+                    <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                      Image
+                    </th>
+                    <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                      Title
+                    </th>
+                    <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                      Description
+                    </th>
+                    <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                      Status
+                    </th>
+                    <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                      Created On
+                    </th>
+                    <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                      Actions
+                    </th>
+                  </tr>
+                </thead>
+                <tbody className="bg-white divide-y divide-gray-200">
+                  {carouselItems.map((item) => (
+                    <tr key={item.id} className="hover:bg-gray-50">
+                      <td className="px-6 py-4 whitespace-nowrap">
+                        <div className="h-16 w-28 relative">
+                          <img 
+                            src={`https://dash.npfinsurance.com/uploads/${item.image}`} 
+                            alt={item.title}
+                            className="h-full w-full object-cover rounded-md"
+                            onError={(e) => {
+                              // Handle image loading error
+                              (e.target as HTMLImageElement).src = 'https://via.placeholder.com/280x160?text=Image+Not+Found';
+                            }}
+                          />
+                        </div>
+                      </td>
+                      <td className="px-6 py-4 whitespace-nowrap">
+                        <div className="text-sm font-medium text-gray-900">{item.title}</div>
+                      </td>
+                      <td className="px-6 py-4">
+                        <div className="text-sm text-gray-500 truncate max-w-xs">{item.description}</div>
+                      </td>
+                      <td className="px-6 py-4 whitespace-nowrap">
+                        {item.status ? (
+                          <span className="px-2 inline-flex items-center text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
+                            <FaEye className="mr-1" /> Active
+                          </span>
+                        ) : (
+                          <span className="px-2 inline-flex items-center text-xs leading-5 font-semibold rounded-full bg-gray-100 text-gray-800">
+                            <FaEyeSlash className="mr-1" /> Inactive
+                          </span>
+                        )}
+                      </td>
+                      <td className="px-6 py-4 whitespace-nowrap">
+                        <div className="text-sm text-gray-500">{formatDate(item.created_at)}</div>
+                      </td>
+                      <td className="px-6 py-4 whitespace-nowrap">
+                        <button
+                          onClick={() => handleDeleteClick(item.id)}
+                          className="text-red-600 hover:text-red-900 focus:outline-none"
+                        >
+                          <FaTrashAlt className="inline mr-1" /> Delete
+                        </button>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          )}
+        </div>
+
+        {/* Delete Confirmation Modal */}
+        {deleteConfirmation && (
+          <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
+            <div className="bg-white p-6 rounded-lg shadow-xl max-w-md w-full">
+              <h3 className="text-lg font-bold text-gray-900 mb-4">Confirm Delete</h3>
+              <p className="text-gray-700 mb-6">
+                Are you sure you want to delete this carousel item? This action cannot be undone.
+              </p>
+              <div className="flex justify-end space-x-3">
+                <button
+                  onClick={cancelDelete}
+                  className="px-4 py-2 bg-gray-200 text-gray-800 rounded hover:bg-gray-300 focus:outline-none"
+                >
+                  Cancel
+                </button>
+                <button
+                  onClick={() => confirmDelete(deleteConfirmation)}
+                  className="px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700 focus:outline-none"
+                >
+                  Delete
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
+      </div>
+    </AdminDashboardLayout>
+  );
 };
 
 export default AdminSlider;

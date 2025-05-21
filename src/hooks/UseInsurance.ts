@@ -931,6 +931,75 @@ export default function useInsurance() {
         }
     }
 
+    const createCarousel = async (data: any) => {
+        try {
+            setLoading(true);
+            const formData = new FormData();
+
+            Object.keys(data).forEach(key => {
+                if (key === 'image' && data.image instanceof File) {
+                    formData.append('image', data.image);
+                } else {
+                    formData.append(key, String(data[key]));
+                }
+            });
+
+            // For debugging - log what's being sent
+            for (const pair of formData.entries()) {
+                console.log(`FormData: ${pair[0]}: ${pair[1]}`);
+            }
+
+            await client.post('/carousel', formData, {
+                headers: {
+                    'Content-Type': 'multipart/form-data'
+                }
+            });
+            router('/admin/dashboard/home-slider');
+            return Promise.resolve("Carousel image uploaded successfully");
+        }
+        catch (error: any) {
+            const resError = error.response?.data;
+            const errorMessage = resError?.message || resError?.data;
+            console.log(errorMessage);
+            return Promise.reject(errorMessage || "Failed to upload carousel image");
+        }
+        finally {
+            setLoading(false);
+        }
+    }
+
+    const getCarousel = async () => {
+        try {
+            setLoading(true);
+            const res = await client.get('/carousel');
+            console.log(res.data);
+            
+            return res?.data;
+        } catch (error: any) {
+            const resError = error.response?.data;
+            const errorMessage = resError?.message || resError?.data;
+            console.log(errorMessage);
+            return Promise.reject(errorMessage || "Failed to fetch carousel images");
+        } finally {
+            setLoading(false);
+        }
+    }
+
+    const deleteCarousel = async (id: number) => {
+        try {
+            setLoading(true);
+            const res = await client.delete(`/carousel/${id}`);
+            return res?.data?.data;
+        } catch (error: any) {
+            const resError = error.response?.data;
+            const errorMessage = resError?.message || resError?.data;
+            console.log(errorMessage);
+            return Promise.reject(errorMessage || "Failed to fetch carousel page");
+        } finally {
+            setLoading(false);
+        }
+    }
+
     const getSlider = async () => {
         try {
             setLoading(true);
@@ -1395,7 +1464,7 @@ export default function useInsurance() {
         }
     }
 
-   
+
     return {
         loading,
         submitUserDetails,
@@ -1469,5 +1538,8 @@ export default function useInsurance() {
         deleteNewsLetterById,
         getFeedBackFrom,
         SubmitToNewsLetter,
+        createCarousel,
+        getCarousel,
+        deleteCarousel
     };
 }

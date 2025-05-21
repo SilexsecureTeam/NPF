@@ -4,37 +4,41 @@ import { MdArrowOutward } from "react-icons/md";
 import { Link } from 'react-router-dom';
 import useInsurance from "@/hooks/UseInsurance";
 
-interface SliderImage {
+interface CarouselItem {
     id: number;
     image: string;
+    title: string;
+    description: string;
+    status: boolean | number;  // can be either true/false or 1/0
     created_at: string;
     updated_at: string;
-    is_active: number;
 }
 
 export default function CarouselComponent() {
-    const [sliderImages, setSliderImages] = useState<SliderImage[]>([]);
+    const [carouselItems, setCarouselItems] = useState<CarouselItem[]>([]);
     const [loading, setLoading] = useState(true);
-    const { getSlider } = useInsurance();
+    const { getCarousel } = useInsurance();  // Changed from getSlider to getCarousel
 
-    // Fetch slider images on component mount
+    // Fetch carousel items on component mount
     useEffect(() => {
-        const fetchSliderImages = async () => {
+        const fetchCarouselItems = async () => {
             try {
                 setLoading(true);
-                const images = await getSlider();
-                // Filter to only show active images (is_active = 1)
-                const activeImages = images.filter((img: SliderImage) => img.is_active === 1);
-                setSliderImages(activeImages);
+                const response = await getCarousel();
+                // Filter to only show active items (status is true or 1)
+                const activeItems = response.data.filter((item: CarouselItem) => 
+                    item.status === true || item.status === 1
+                );
+                setCarouselItems(activeItems);
             } catch (error) {
-                console.error("Error fetching slider images:", error);
-                setSliderImages([]);
+                console.error("Error fetching carousel items:", error);
+                setCarouselItems([]);
             } finally {
                 setLoading(false);
             }
         };
 
-        fetchSliderImages();
+        fetchCarouselItems();
     }, []);
 
     if (loading) {
@@ -45,32 +49,32 @@ export default function CarouselComponent() {
         );
     }
 
-    // If no slider images are available, don't render the carousel
-    if (sliderImages.length === 0) {
+    // If no carousel items are available, don't render the carousel
+    if (carouselItems.length === 0) {
         return null;
     }
 
     return (
         <Carousel slideInterval={5000}>
-            {sliderImages.map((image, index) => {
-                const imageUrl = `https://dash.npfinsurance.com/uploads/${image.image}`;
+            {carouselItems.map((item) => {
+                const imageUrl = `https://dash.npfinsurance.com/uploads/${item.image}`;
 
                 return (
-                    <div key={index} className="relative w-full h-screen bg-cover bg-center mt-10"
+                    <div key={item.id} className="relative w-full h-screen bg-cover bg-center mt-10"
                         style={{ backgroundImage: `url(${imageUrl})` }}>
                         <div className="absolute inset-0 bg-black opacity-50"></div>
                         <div className="container mx-auto h-full flex items-center relative z-10 px-8 sm:px-16">
                             <div className="text-left sm:text-center bg-white bg-opacity-85 p-5 md:px-8 rounded-2xl">
                                 <div className="text-3xl sm:text-5xl font-bold">
-                                    <h1 className='text-2xl md:text-3xl lg:text-5xl xl:text-5xl'>Your <span className="text-green-800">Safety Net</span> for</h1>
-                                    <h1 className='text-2xl md:text-3xl lg:text-5xl xl:text-5xl'>Life's Uncertainties</h1>
+                                    {/* Use the title from carousel item */}
+                                    <h1 className='text-2xl md:text-3xl lg:text-5xl xl:text-5xl'>
+                                        {item.title || "Your Safety Net for Life's Uncertainties"}
+                                    </h1>
                                 </div>
                                 <div className="my-1 text-lg sm:text-xl py-3">
+                                    {/* Use the description from carousel item */}
                                     <p className="text-gray-900">
-                                        Protecting you and your loved ones with reliable
-                                    </p>
-                                    <p className="text-gray-900">
-                                        coverage when you need it most.
+                                        {item.description || "Protecting you and your loved ones with reliable coverage when you need it most."}
                                     </p>
                                 </div>
                                 <div className="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-5 py-2 justify-center">
