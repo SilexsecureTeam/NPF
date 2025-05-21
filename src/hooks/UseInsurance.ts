@@ -967,6 +967,43 @@ export default function useInsurance() {
             setLoading(false);
         }
     }
+const updateCarousel = async (data: any, id: number) => {
+    try {
+        setLoading(true);
+        const formData = new FormData();
+
+        Object.keys(data).forEach(key => {
+            // Only append image if it's an actual File object
+            if (key === 'image' && data.image instanceof File) {
+                formData.append('image', data.image);
+            } else if (key !== 'image') { // Skip the image key completely if not a File
+                formData.append(key, String(data[key]));
+            }
+        });
+
+        // For debugging - log what's being sent
+        for (const pair of formData.entries()) {
+            console.log(`UpdateFormData: ${pair[0]}: ${pair[1]}`);
+        }
+
+        await client.post(`/carousel/${id}`, formData, {
+            headers: {
+                'Content-Type': 'multipart/form-data'
+            }
+        });
+        router('/admin/dashboard/home-slider');
+        return Promise.resolve("Carousel item updated successfully");
+    }
+    catch (error: any) {
+        const resError = error.response?.data;
+        const errorMessage = resError?.message || resError?.data;
+        console.log(errorMessage);
+        return Promise.reject(errorMessage || "Failed to update carousel item");
+    }
+    finally {
+        setLoading(false);
+    }
+}
 
     const getCarousel = async () => {
         try {
@@ -1540,6 +1577,7 @@ export default function useInsurance() {
         SubmitToNewsLetter,
         createCarousel,
         getCarousel,
-        deleteCarousel
+        deleteCarousel,
+        updateCarousel,
     };
 }

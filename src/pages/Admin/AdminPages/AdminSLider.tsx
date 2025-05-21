@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { toast } from 'react-toastify';
-import { FaTrashAlt, FaEye, FaEyeSlash } from 'react-icons/fa';
+import { FaTrashAlt, FaEye, FaEyeSlash, FaEdit } from 'react-icons/fa';
 import AdminDashboardLayout from '@/components/Layout/AdminLayout/AdminLayout';
 import useInsurance from '@/hooks/UseInsurance';
 import { CarouselDataValues } from '@/types';
@@ -18,12 +18,14 @@ interface CarouselItem {
 const MAX_FILE_SIZE = 2 * 1024 * 1024; // 2MB maximum
 
 const AdminSlider: React.FC = () => {
-  const { createCarousel, getCarousel, deleteCarousel } = useInsurance();
+  const { createCarousel, getCarousel, deleteCarousel, updateCarousel } = useInsurance();
   const [carouselItems, setCarouselItems] = useState<CarouselItem[]>([]);
   const [loading, setLoading] = useState(true);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [deleteConfirmation, setDeleteConfirmation] = useState<number | null>(null);
   const [previewImage, setPreviewImage] = useState<string | null>(null);
+  const [isEditing, setIsEditing] = useState(false);
+  const [editingItemId, setEditingItemId] = useState<number | null>(null);
   
   const [formData, setFormData] = useState<CarouselDataValues>({
     image: null as unknown as File,
@@ -51,6 +53,35 @@ const AdminSlider: React.FC = () => {
   useEffect(() => {
     fetchCarouselItems();
   }, []);
+
+  // Handle edit button click
+  const handleEditClick = (item: CarouselItem) => {
+    setIsEditing(true);
+    setEditingItemId(item.id);
+    setFormData({
+      title: item.title,
+      description: item.description,
+      status: Boolean(item.status),
+      image: null as unknown as File // We don't load the existing image as a File object
+    });
+    setPreviewImage(`https://dash.npfinsurance.com/uploads/${item.image}`);
+    
+    // Scroll to the form
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
+  // Cancel editing
+  const cancelEdit = () => {
+    setIsEditing(false);
+    setEditingItemId(null);
+    setPreviewImage(null);
+    setFormData({
+      image: null as unknown as File,
+      title: '',
+      description: '',
+      status: true
+    });
+  };
 
   // Handle form input changes
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
@@ -100,7 +131,8 @@ const AdminSlider: React.FC = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
-    if (!formData.image) {
+    // For creating new items, image is required
+    if (!isEditing && !formData.image) {
       toast.error('Please select an image');
       return;
     }
@@ -116,37 +148,61 @@ const AdminSlider: React.FC = () => {
         status: formData.status ? 1 : 0  // Convert boolean to 1 or 0
       };
       
-      console.log("Submitting with status:", modifiedData.status);
+      console.log(`${isEditing ? "Updating" : "Creating"} with status:`, modifiedData.status);
       
-      // Submit form data using the createCarousel function
-      await toast.promise(
-        createCarousel(modifiedData as any),
-        {
-          pending: 'Creating carousel item...',
-          success: {
-            render() {
-              fetchCarouselItems(); // Refresh the list
-              // Reset form
-              setFormData({
-                image: null as unknown as File,
-                title: '',
-                description: '',
-                status: true
-              });
-              setPreviewImage(null);
-              return 'Carousel item created successfully!';
-            }
-          },
-          error: {
-            render({ data }) {
-              console.error("API Error:", data);
-              return typeof data === 'string' ? data : 'Failed to create carousel item';
+      if (isEditing && editingItemId) {
+        // Update existing carousel item
+        await toast.promise(
+          updateCarousel(modifiedData, editingItemId),
+          {
+            pending: 'Updating carousel item...',
+            success: {
+              render() {
+                fetchCarouselItems(); // Refresh the list
+                // Reset form and state
+                cancelEdit();
+                return 'Carousel item updated successfully!';
+              }
+            },
+            error: {
+              render({ data }) {
+                console.error("API Error:", data);
+                return typeof data === 'string' ? data : 'Failed to update carousel item';
+              }
             }
           }
-        }
-      );
+        );
+      } else {
+        // Create new carousel item
+        await toast.promise(
+          createCarousel(modifiedData as any),
+          {
+            pending: 'Creating carousel item...',
+            success: {
+              render() {
+                fetchCarouselItems(); // Refresh the list
+                // Reset form
+                setFormData({
+                  image: null as unknown as File,
+                  title: '',
+                  description: '',
+                  status: true
+                });
+                setPreviewImage(null);
+                return 'Carousel item created successfully!';
+              }
+            },
+            error: {
+              render({ data }) {
+                console.error("API Error:", data);
+                return typeof data === 'string' ? data : 'Failed to create carousel item';
+              }
+            }
+          }
+        );
+      }
     } catch (error) {
-      console.error('Error creating carousel item:', error);
+      console.error(`Error ${isEditing ? 'updating' : 'creating'} carousel item:`, error);
     } finally {
       setIsSubmitting(false);
     }
@@ -195,10 +251,12 @@ const AdminSlider: React.FC = () => {
   return (
     <AdminDashboardLayout>
       <div className="container mx-auto px-4 py-8">
-        {/* Add Carousel Item Form */}
+        {/* Add/Edit Carousel Item Form */}
         <div className="bg-white rounded-lg shadow-md overflow-hidden mb-8">
           <div className="bg-green-600 p-4">
-            <h2 className="text-xl font-bold text-white">Add New Carousel Item</h2>
+            <h2 className="text-xl font-bold text-white">
+              {isEditing ? 'Edit Carousel Item' : 'Add New Carousel Item'}
+            </h2>
           </div>
           <div className="p-6">
             <form onSubmit={handleSubmit}>
@@ -250,7 +308,7 @@ const AdminSlider: React.FC = () => {
                       onChange={handleFileChange}
                       className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-green-500"
                       accept="image/jpeg,image/png,image/webp"
-                      required
+                      required={!isEditing} // Not required when editing
                     />
                     <div className="mt-2">
                       <p className="text-sm text-gray-500">
@@ -260,11 +318,18 @@ const AdminSlider: React.FC = () => {
                         <li>Size: Maximum 2MB</li>
                         <li>Format: JPG, PNG, or WebP</li>
                       </ul>
+                      {isEditing && !formData.image && (
+                        <p className="text-yellow-600 text-sm mt-2">
+                          Leave empty to keep the current image
+                        </p>
+                      )}
                     </div>
                   </div>
                   {previewImage && (
                     <div className="mt-4">
-                      <p className="text-sm font-medium text-gray-700 mb-2">Preview:</p>
+                      <p className="text-sm font-medium text-gray-700 mb-2">
+                        {isEditing ? 'Current/New Image:' : 'Preview:'}
+                      </p>
                       <div className="relative aspect-video bg-gray-100 rounded-md overflow-hidden">
                         <img
                           src={previewImage}
@@ -276,13 +341,22 @@ const AdminSlider: React.FC = () => {
                   )}
                 </div>
               </div>
-              <div className="mt-6 text-right">
+              <div className="mt-6 flex justify-end space-x-3">
+                {isEditing && (
+                  <button
+                    type="button"
+                    onClick={cancelEdit}
+                    className="px-6 py-2 bg-gray-300 text-gray-700 rounded-md hover:bg-gray-400 focus:outline-none"
+                  >
+                    Cancel
+                  </button>
+                )}
                 <button
                   type="submit"
                   disabled={isSubmitting}
                   className="px-6 py-2 bg-green-600 text-white rounded-md hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 disabled:opacity-50"
                 >
-                  {isSubmitting ? 'Adding...' : 'Add Carousel Item'}
+                  {isSubmitting ? (isEditing ? 'Updating...' : 'Adding...') : (isEditing ? 'Update Carousel Item' : 'Add Carousel Item')}
                 </button>
               </div>
             </form>
@@ -365,12 +439,20 @@ const AdminSlider: React.FC = () => {
                         <div className="text-sm text-gray-500">{formatDate(item.created_at)}</div>
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap">
-                        <button
-                          onClick={() => handleDeleteClick(item.id)}
-                          className="text-red-600 hover:text-red-900 focus:outline-none"
-                        >
-                          <FaTrashAlt className="inline mr-1" /> Delete
-                        </button>
+                        <div className="flex space-x-3">
+                          <button
+                            onClick={() => handleEditClick(item)}
+                            className="text-blue-600 hover:text-blue-900 focus:outline-none"
+                          >
+                            <FaEdit className="inline mr-1" /> Edit
+                          </button>
+                          <button
+                            onClick={() => handleDeleteClick(item.id)}
+                            className="text-red-600 hover:text-red-900 focus:outline-none"
+                          >
+                            <FaTrashAlt className="inline mr-1" /> Delete
+                          </button>
+                        </div>
                       </td>
                     </tr>
                   ))}
