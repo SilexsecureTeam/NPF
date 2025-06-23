@@ -1,6 +1,7 @@
 import heroImg from "../../assets/about/hero2.png";
 //import missionImg from "../../assets/about/mission.png"
 import visionImg from "../../assets/about/vision2.png";
+//@ts-ignore
 import Team from "./Team";
 import objectiveImg from "../../assets/about/objective.png";
 import regulatorImg from "../../assets/about/regulator.svg";
