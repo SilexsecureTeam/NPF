@@ -10,6 +10,7 @@ import team9 from "../assets/about/team9.jpg";
 import team10 from "../assets/about/team10.jpg";
 import team11 from "../assets/about/team11.jpg";
 import team12 from "../assets/about/team12.jpg";
+import team13 from "../assets/about/team13.jpg";
 export const teamMembers = [
   {
     name: "Temitayo Oke ACIIN",
@@ -64,5 +65,10 @@ export const teamMembers = [
     position: "Head, Strategy Department (2)",
     border: true,
     img: team12,
+  }{
+    name: "Adedokun Babatunde Musbau",
+    position: "Regional Cordinator Lagos and South West",
+    border: true,
+    img: team13,
   },
 ];
