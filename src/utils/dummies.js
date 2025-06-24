@@ -65,7 +65,7 @@ export const teamMembers = [
     position: "Head, Strategy Department (2)",
     border: true,
     img: team12,
-  }{
+  },{
     name: "Adedokun Babatunde Musbau",
     position: "Regional Cordinator Lagos and South West",
     border: true,
