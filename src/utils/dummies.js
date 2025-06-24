@@ -42,18 +42,6 @@ export const teamMembers = [
     img: team5,
   },
   {
-    name: "Babatunde-Dare Theresa",
-    position: "Assistant Chief Financial Officer",
-    border: true,
-    img: team6,
-  },
-  {
-    name: "Umar Aliyu A.",
-    position: "Head, ICT Department",
-    border: true,
-    img: team7,
-  },
-  {
     name: "Isiaka Raji",
     position: "Head, Technical Department",
     border: true,
@@ -64,12 +52,6 @@ export const teamMembers = [
     position: "Head, Human Resources Department",
     border: true,
     img: team9,
-  },
-  {
-    name: "Umoh Kennedy",
-    position: "Head, Public Sector",
-    border: true,
-    img: team10,
   },
   {
     name: "Samson Ameh Imaben",
