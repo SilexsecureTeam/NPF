@@ -1,5 +1,5 @@
 // src/context/store/authSlice.ts
-import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { createSlice, PayloadAction, Slice } from "@reduxjs/toolkit";
 
 interface Admin {
   username: string;
@@ -36,7 +36,7 @@ const initialState: AuthState = {
   isAuthenticated: !!getUserFromStorage(),
 };
 
-export const authSlice = createSlice({
+export const authSlice: Slice<typeof initialState> = createSlice({
   name: "auth",
   initialState,
   reducers: {
@@ -53,7 +53,7 @@ export const authSlice = createSlice({
     },
     setToken: (state, action: PayloadAction<string | null>) => {
       state.token = action.payload;
-      
+
       if (typeof window !== "undefined") {
         if (action.payload) {
           // Store token as plain string (not JSON stringified)
@@ -79,7 +79,7 @@ export const authSlice = createSlice({
       state.token = null;
       state.otp_mail = null;
       state.isAuthenticated = false;
-      
+
       if (typeof window !== "undefined") {
         window.localStorage.removeItem("user");
         window.localStorage.removeItem("token");

@@ -1,5 +1,6 @@
-import React from "react";
+// @ts-ignore
 import TeamImageCard from "./TeamImageCard";
+// @ts-ignore
 import { teamMembers } from "../../utils/dummies";
 
 const Team = () => {
@@ -9,7 +10,7 @@ const Team = () => {
         Our Team
       </h4>
       <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-4 place-items-center">
-        {teamMembers.map((member, index) => (
+        {teamMembers?.map((member: any, index: any) => (
           <TeamImageCard
             key={index}
             img={member.img}
