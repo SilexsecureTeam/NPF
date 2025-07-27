@@ -1,9 +1,14 @@
 import { useEffect, useRef, useState } from "react";
 import axios from "axios";
+import { io } from "socket.io-client";
+
+const socket = io("https://site-visitors-tracker.onrender.com", {
+  withCredentials: true,
+});
 
 export const usePageViews = () => {
   const [count, setCount] = useState<number | null>(null);
-  const hasTracked = useRef(false); // 💡 Prevent double execution
+  const hasTracked = useRef(false);
 
   useEffect(() => {
     if (hasTracked.current) return;
@@ -19,9 +24,7 @@ export const usePageViews = () => {
 
         const res = await axios.get(
           "https://site-visitors-tracker.onrender.com/api/today-visits",
-          {
-            withCredentials: true,
-          }
+          { withCredentials: true }
         );
 
         setCount(res.data.count);
@@ -31,6 +34,15 @@ export const usePageViews = () => {
     };
 
     fetchViews();
+
+    // Listen to real-time updates
+    socket.on("visit_update", (data) => {
+      setCount(data.count);
+    });
+
+    return () => {
+      socket.off("visit_update");
+    };
   }, []);
 
   return count;

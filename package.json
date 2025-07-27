@@ -45,6 +45,7 @@
     "react-toastify": "^10.0.5",
     "react-typed": "^2.0.12",
     "slick-carousel": "^1.8.1",
+    "socket.io-client": "^4.8.1",
     "yup": "^1.4.0"
   },
   "devDependencies": {
