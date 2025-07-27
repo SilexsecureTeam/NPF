@@ -1,5 +1,5 @@
 // components/ui/Counter.tsx
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useSpring, animated } from "@react-spring/web";
 
 type CounterProps = {

@@ -37,28 +37,6 @@ export default function Footer() {
     }
   };
 
-  // Counter animation hook
-  const useCounter = (target: number, duration = 800) => {
-    const [count, setCount] = useState(0);
-    useEffect(() => {
-      let start = 0;
-      const step = Math.ceil(target / (duration / 30));
-      const interval = setInterval(() => {
-        start += step;
-        if (start >= target) {
-          setCount(target);
-          clearInterval(interval);
-        } else {
-          setCount(start);
-        }
-      }, 30);
-      return () => clearInterval(interval);
-    }, [target]);
-    return count;
-  };
-
-  const animatedCount = useCounter(pageViewCount || 0);
-
   return (
     <footer className="text-white bg-green-800 py-10">
       <div className="px-8 sm:px-16">
