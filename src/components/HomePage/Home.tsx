@@ -189,10 +189,11 @@ export default function Home() {
               </div>
             </div>
 
-            <div className="px-8 sm:px-16 py-12">
-              <div className="flex flex-col sm:flex-row sm:space-x-10 relative space-y-10 sm:space-y-0 justify-center">
+            <div className="px-4 sm:px-8 lg:px-16 py-12">
+              <div className="flex flex-col sm:flex-row sm:space-x-10 space-y-10 sm:space-y-0 justify-center items-center sm:items-stretch">
+                {/* === Card 1 === */}
                 <div className="text-center bg-white rounded-md p-5 w-full sm:w-72 relative">
-                  <div className="text-center flex justify-center">
+                  <div className="flex justify-center">
                     <img src="/assets/images/tape-measure.png" alt="" />
                   </div>
                   <div className="text-gray-600">
@@ -201,9 +202,9 @@ export default function Home() {
                     </h1>
                     <p>To choose the insurance</p>
                     <p>policy type that best fits you</p>
-                    <p> or your business.</p>
+                    <p>or your business.</p>
                   </div>
-                  <div className="bg-green-800 rounded-full w-8 h-8 px-2 py-2 text-center flex items-center justify-center text-white font-bold absolute bottom-[-20px] left-1/2 transform -translate-x-1/2 sm:left-[120px]">
+                  <div className="bg-green-800 rounded-full w-8 h-8 flex items-center justify-center text-white font-bold absolute bottom-[-20px] left-1/2 transform -translate-x-1/2 sm:left-[120px]">
                     1
                   </div>
                   <div className="absolute bottom-[-100px] left-[140px] hidden lg:block">
@@ -211,19 +212,20 @@ export default function Home() {
                   </div>
                 </div>
 
+                {/* === Card 2 === */}
                 <div className="text-center bg-white rounded-md px-5 py-10 w-full sm:w-72 relative sm:bottom-[-60px]">
-                  <div className="text-center flex justify-center">
+                  <div className="flex justify-center">
                     <img src="/assets/images/checkmark-badge-03.png" alt="" />
                   </div>
                   <div className="text-gray-600">
                     <h1 className="text-black-500 text-xl font-bold py-2">
                       Form Completion
                     </h1>
-                    <p>Fill out the required </p>
+                    <p>Fill out the required</p>
                     <p>information on the form,</p>
-                    <p>and submit. </p>
+                    <p>and submit.</p>
                   </div>
-                  <div className="bg-green-800 rounded-full w-8 h-8 px-2 py-2 text-center flex items-center justify-center text-white font-bold absolute top-[-10px] left-1/2 transform -translate-x-1/2 sm:top-[-20px] sm:left-[135px]">
+                  <div className="bg-green-800 rounded-full w-8 h-8 flex items-center justify-center text-white font-bold absolute top-[-10px] left-1/2 transform -translate-x-1/2 sm:top-[-20px] sm:left-[135px]">
                     2
                   </div>
                   <div className="absolute top-[-100px] left-[120px] hidden lg:block">
@@ -231,19 +233,20 @@ export default function Home() {
                   </div>
                 </div>
 
+                {/* === Card 3 === */}
                 <div className="text-center bg-white rounded-md p-5 w-full sm:w-72 relative">
-                  <div className="text-center flex justify-center">
+                  <div className="flex justify-center">
                     <img src="/assets/images/mentoring.png" alt="" />
                   </div>
                   <div className="text-gray-600">
                     <h1 className="text-black-500 text-xl font-bold py-2">
-                      Make Premium Payment{" "}
+                      Make Premium Payment
                     </h1>
                     <p>Complete your Premium</p>
-                    <p>Payment effortlessly using </p>
+                    <p>Payment effortlessly using</p>
                     <p>our user-friendly payment platform.</p>
                   </div>
-                  <div className="bg-green-800 rounded-full w-8 h-8 px-2 py-2 text-center flex items-center justify-center text-white font-bold absolute bottom-[-20px] left-1/2 transform -translate-x-1/2 sm:left-[120px]">
+                  <div className="bg-green-800 rounded-full w-8 h-8 flex items-center justify-center text-white font-bold absolute bottom-[-20px] left-1/2 transform -translate-x-1/2 sm:left-[120px]">
                     3
                   </div>
                   <div className="absolute bottom-[-100px] left-[140px] hidden lg:block">
@@ -251,17 +254,17 @@ export default function Home() {
                   </div>
                 </div>
 
+                {/* === Card 4 === */}
                 <div className="text-center bg-white rounded-md px-5 py-10 w-full sm:w-72 relative sm:bottom-[-60px]">
-                  <div className="text-center flex justify-center">
-                    {/* <img src="/assets/images/policy.png" alt="" /> */}
+                  <div className="flex justify-center">
                     <BiCertification className="text-green-400 w-10 h-10" />
                   </div>
                   <div className="text-gray-600">
                     <h1 className="text-black-500 text-xl font-bold py-2">
-                      Get your certificate/Policy{" "}
+                      Get your certificate/Policy
                     </h1>
                   </div>
-                  <div className="bg-green-800 rounded-full w-8 h-8 px-2 py-2 text-center flex items-center justify-center text-white font-bold absolute top-[-10px] left-1/2 transform -translate-x-1/2 sm:top-[-20px] sm:left-[135px]">
+                  <div className="bg-green-800 rounded-full w-8 h-8 flex items-center justify-center text-white font-bold absolute top-[-10px] left-1/2 transform -translate-x-1/2 sm:top-[-20px] sm:left-[135px]">
                     4
                   </div>
                   <div className="absolute top-[-100px] left-[120px] hidden lg:block">
@@ -269,8 +272,9 @@ export default function Home() {
                   </div>
                 </div>
 
+                {/* === Card 5 === */}
                 <div className="text-center bg-white rounded-md px-5 py-10 w-full sm:w-72 relative sm:bottom-[-60px]">
-                  <div className="text-center flex justify-center">
+                  <div className="flex justify-center">
                     <img src="/assets/images/policy.png" alt="" />
                   </div>
                   <div className="text-gray-600">
@@ -280,7 +284,7 @@ export default function Home() {
                     <p>Access Your Quick and</p>
                     <p>Streamlined Claims</p>
                   </div>
-                  <div className="bg-green-800 rounded-full w-8 h-8 px-2 py-2 text-center flex items-center justify-center text-white font-bold absolute top-[-10px] left-1/2 transform -translate-x-1/2 sm:top-[-20px] sm:left-[135px]">
+                  <div className="bg-green-800 rounded-full w-8 h-8 flex items-center justify-center text-white font-bold absolute top-[-10px] left-1/2 transform -translate-x-1/2 sm:top-[-20px] sm:left-[135px]">
                     5
                   </div>
                 </div>

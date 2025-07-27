@@ -30,45 +30,46 @@ export const teamMembers = [
     border: true,
     img: team3,
   },
-  {
-    name: "Barr.Asuquo Effiong",
-    position: "Company Secretary",
-    border: true,
-    img: team4,
-  },
-  {
-    name: "Adekoleoye Esther Adenike",
-    position: "Head, Internal Audit and Control Department",
-    border: true,
-    img: team5,
-  },
-  {
-    name: "Isiaka Raji",
-    position: "Head, Technical Department",
-    border: true,
-    img: team8,
-  },
-  {
-    name: "Yusuf Sunday S.",
-    position: "Head, Human Resources Department",
-    border: true,
-    img: team9,
-  },
-  {
-    name: "Samson Ameh Imaben",
-    position: "Head, Admin & Corporate Services Department",
-    border: true,
-    img: team11,
-  },
-  {
-    name: "Osode Evangeline E.",
-    position: "Head, Strategy Department (2)",
-    border: true,
-    img: team12,
-  },{
-    name: "Adedokun Babatunde Musbau",
-    position: "Regional Cordinator Lagos and South West",
-    border: true,
-    img: team13,
-  },
+
+  // {
+  //   name: "Barr.Asuquo Effiong",
+  //   position: "Company Secretary",
+  //   border: true,
+  //   img: team4,
+  // },
+  // {
+  //   name: "Adekoleoye Esther Adenike",
+  //   position: "Head, Internal Audit and Control Department",
+  //   border: true,
+  //   img: team5,
+  // },
+  // {
+  //   name: "Isiaka Raji",
+  //   position: "Head, Technical Department",
+  //   border: true,
+  //   img: team8,
+  // },
+  // {
+  //   name: "Yusuf Sunday S.",
+  //   position: "Head, Human Resources Department",
+  //   border: true,
+  //   img: team9,
+  // },
+  // {
+  //   name: "Samson Ameh Imaben",
+  //   position: "Head, Admin & Corporate Services Department",
+  //   border: true,
+  //   img: team11,
+  // },
+  // {
+  //   name: "Osode Evangeline E.",
+  //   position: "Head, Strategy Department (2)",
+  //   border: true,
+  //   img: team12,
+  // },{
+  //   name: "Adedokun Babatunde Musbau",
+  //   position: "Regional Cordinator Lagos and South West",
+  //   border: true,
+  //   img: team13,
+  // },
 ];
