@@ -1,6 +1,7 @@
 import { ReactNode } from "react";
 import Header from "./header/header";
 import Footer from "./footer/footer";
+// @ts-ignore
 import TawkMessengerReact from "@tawk.to/tawk-messenger-react";
 
 type Props = {
