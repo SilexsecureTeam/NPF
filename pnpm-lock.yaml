@@ -35,6 +35,9 @@ importers:
       '@reduxjs/toolkit':
         specifier: ^2.2.7
         version: 2.8.2(react-redux@9.2.0(@types/react@18.3.23)(react@18.3.1)(redux@5.0.1))(react@18.3.1)
+      '@snapbot/whatsapp-widget':
+        specifier: ^0.0.15
+        version: 0.0.15
       '@tawk.to/tawk-messenger-react':
         specifier: ^2.0.2
         version: 2.0.2(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
@@ -557,6 +560,40 @@ packages:
   '@jridgewell/trace-mapping@0.3.25':
     resolution: {integrity: sha512-vNk6aEwybGtawWmy/PzwnGDOjCkLWSD2wqvjGGAgOAwCGWySYXfYoxt00IJkTF+8Lb57DwOb3Aa0o9CApepiYQ==}
 
+  '@material/animation@8.0.0-canary.a78ceb112.0':
+    resolution: {integrity: sha512-avnYo5iXt64I5nJfNbiYebtZ8sYcgxbje1JpU0mr58VpgDpSRbQCDoJi+/LPDQiNDr/lU3vUM9MEQaECY8KVzw==}
+
+  '@material/base@8.0.0-canary.a78ceb112.0':
+    resolution: {integrity: sha512-gSCgOkjtyrpxGm8BC7mx0dM6yyWda/jSvBcCejlydHQ76fwJ/uV8snBvCdyqgW+E2fDt8Y2o5HyeJSFHAb9q/w==}
+
+  '@material/dom@8.0.0-canary.a78ceb112.0':
+    resolution: {integrity: sha512-FmmLO+F/kyo/0rbkkp955JiN8ZCG9CI5g3VH4Ru02jtZdXnGSzo8Cdqjq2fzgP7MQ//eTTwMdeCZfp81UCwjQw==}
+
+  '@material/feature-targeting@8.0.0-canary.a78ceb112.0':
+    resolution: {integrity: sha512-pYiHlUwKiAwBAULUDVxADD2eHb80cuzwQsQI9IpNr1mgdLcoKomWYxmHYzyD9AUIOlYsPrft+ozyC4gXt5kOtg==}
+
+  '@material/mwc-base@0.17.2':
+    resolution: {integrity: sha512-SJ4GLhikChTp7HwyAqccIk1usxwLporj5EWCNx+1h2ECWIY5BdIySFkmq9uqrVLEDTwW0wPB+0ZD+E3ScJdvZw==}
+    deprecated: MWC beta is longer supported. Please upgrade to @material/web
+
+  '@material/mwc-button@0.17.2':
+    resolution: {integrity: sha512-2fNVfF2tL1yywufCY4qLgqBR5lS2QFUIu9AqOmImN0MNmFk3jhXAiVSdWbuMKruiGI0HW4DAzM/w+uiAVu83KA==}
+    deprecated: MWC beta is longer supported. Please upgrade to @material/web
+
+  '@material/mwc-icon@0.17.2':
+    resolution: {integrity: sha512-9EpoLbn82RD5Wsxv0J7o1hTyn+WLfC1tdaTBvDmkRJZhfFheXYKUWNQXWrra0I/BpmojOGvijStOH0rga513WA==}
+    deprecated: MWC beta is longer supported. Please upgrade to @material/web
+
+  '@material/mwc-ripple@0.17.2':
+    resolution: {integrity: sha512-rdx/mR9vxPS6ZnM7oWP4E5FGRQ3pgo7n/hGUPcGMxFfXaxaHs1evoIQscp9a6HcXVrLPXemKD6msObwMDKetQA==}
+    deprecated: MWC beta is longer supported. Please upgrade to @material/web
+
+  '@material/ripple@8.0.0-canary.a78ceb112.0':
+    resolution: {integrity: sha512-0vftc/VRNBGNkVeaumc+ztN6cPUDUXL0+X1HQSuNGn4tS0slqQH6yi9+juZhteOGY9Ca+1D3agsB7H9eNzdM8Q==}
+
+  '@material/theme@8.0.0-canary.a78ceb112.0':
+    resolution: {integrity: sha512-/hBvqcXYDuCG0nWEJ8uYsM/XxrCE4EHcel7N6WYwZDRHlPfKQis3qPEJCJicdHckVFdOUvGr9KO2h5BWUNA90Q==}
+
   '@mui/core-downloads-tracker@6.4.12':
     resolution: {integrity: sha512-M7IkG4LqSJfkY+thlQQHNkcS5NdmMDwLq/2RKoW40XR0mv/2BYb6X8fRnyaxP4zGdPD2M4MQdbzKihSVormJ7Q==}
 
@@ -695,6 +732,24 @@ packages:
   '@pkgjs/parseargs@0.11.0':
     resolution: {integrity: sha512-+1VkjdD0QBLPodGrJUeqarH8VAIvQODIbwh9XpP5Syisf7YoQgsJKPNFoqqLQlu+VQ/tVSshMR6loPMn8U+dPg==}
     engines: {node: '>=14'}
+
+  '@polymer/iron-flex-layout@3.0.1':
+    resolution: {integrity: sha512-7gB869czArF+HZcPTVSgvA7tXYFze9EKckvM95NB7SqYF+NnsQyhoXgKnpFwGyo95lUjUW9TFDLUwDXnCYFtkw==}
+
+  '@polymer/iron-icon@3.0.1':
+    resolution: {integrity: sha512-QLPwirk+UPZNaLnMew9VludXA4CWUCenRewgEcGYwdzVgDPCDbXxy6vRJjmweZobMQv/oVLppT2JZtJFnPxX6g==}
+
+  '@polymer/iron-iconset-svg@3.0.1':
+    resolution: {integrity: sha512-XNwURbNHRw6u2fJe05O5fMYye6GSgDlDqCO+q6K1zAnKIrpgZwf2vTkBd5uCcZwsN0FyCB3mvNZx4jkh85dRDw==}
+
+  '@polymer/iron-meta@3.0.1':
+    resolution: {integrity: sha512-pWguPugiLYmWFV9UWxLWzZ6gm4wBwQdDy4VULKwdHCqR7OP7u98h+XDdGZsSlDPv6qoryV/e3tGHlTIT0mbzJA==}
+
+  '@polymer/iron-resizable-behavior@3.0.1':
+    resolution: {integrity: sha512-FyHxRxFspVoRaeZSWpT3y0C9awomb4tXXolIJcZ7RvXhMP632V5lez+ch5G5SwK0LpnAPkg35eB0LPMFv+YMMQ==}
+
+  '@polymer/polymer@3.5.2':
+    resolution: {integrity: sha512-fWwImY/UH4bb2534DVSaX+Azs2yKg8slkMBHOyGeU2kKx7Xmxp6Lee0jP8p6B3d7c1gFUPB2Z976dTUtX81pQA==}
 
   '@popperjs/core@2.11.8':
     resolution: {integrity: sha512-P1st0aksCrn9sGZhp8GMYwBnQsbvAWsZAX44oXNNvLHGqAOcoVxmjZiohstwQ7SqKnbR47akdNi+uleWD8+g6A==}
@@ -926,6 +981,9 @@ packages:
     cpu: [x64]
     os: [win32]
 
+  '@snapbot/whatsapp-widget@0.0.15':
+    resolution: {integrity: sha512-G9y5KE3y/LSIxcn0f3j8yIFhjrjI3LMH789/+26FyipaGl+3z6qkXlHiyR6KHse56rzhcrtyNawcY9l1UGbL1A==}
+
   '@socket.io/component-emitter@3.1.2':
     resolution: {integrity: sha512-9BCxFwvbGg/RsZK9tjXd8s4UcwR0MWeFQ1XEKIQVVvAGJyINdrqKMcTRyLoK8Rse1GjzLV9cwjWV1olXRWEXVA==}
 
@@ -1091,11 +1149,48 @@ packages:
   '@ungap/structured-clone@1.3.0':
     resolution: {integrity: sha512-WmoN8qaIAo7WTYWbAZuG8PYEhn5fkz7dZrqTBZ7dtt//lL2Gwms1IcnQ5yHqjDfX8Ft5j4YzDM23f87zBfDe9g==}
 
+  '@vaadin/vaadin-button@2.4.0':
+    resolution: {integrity: sha512-C94F07OOb5Ciq2BY4CklIQG+WJFA6QoTFDQl8JJloJgPI12b9kmyP8uRgfq4VAHHusqKqIvA8AB6VZuGg5lagg==}
+
+  '@vaadin/vaadin-control-state-mixin@2.2.6':
+    resolution: {integrity: sha512-3edQSooBoHVC3RexL6hi3/26HMGvG1jlxLq6ffH9c+GapuZ9zh6E2KyZa/Sz1jmLZwfZII7exgwkHhEYUZZrJA==}
+
+  '@vaadin/vaadin-development-mode-detector@2.0.7':
+    resolution: {integrity: sha512-9FhVhr0ynSR3X2ao+vaIEttcNU5XfzCbxtmYOV8uIRnUCtNgbvMOIcyGBvntsX9I5kvIP2dV3cFAOG9SILJzEA==}
+
+  '@vaadin/vaadin-dialog@2.6.0':
+    resolution: {integrity: sha512-CciEbULUPdVgN9irsT2Ch/RnjS96wdQwgi4AgpTNID9fnO93TbdKgmD/gPCnLG9wnraDxJ+JqRQjbJBSOOyQGQ==}
+
+  '@vaadin/vaadin-element-mixin@2.4.2':
+    resolution: {integrity: sha512-VSDVK0XUsFe/RohpwSzQwgqb2Pwpok6sDNhIDS4CARr3HPhq2voMzT/FowFbkEy0J1hFtN/ZfC7tkv3kdEKKIQ==}
+
+  '@vaadin/vaadin-lumo-styles@1.6.1':
+    resolution: {integrity: sha512-Yh9ZcekpY7byXP1QJnfx94rVvK71xHBEspsVV7LL7YMvqXU4EAYuzQGYsljryV4PGS9PFPD6sqbGqhEkIhHPnQ==}
+
+  '@vaadin/vaadin-material-styles@1.3.2':
+    resolution: {integrity: sha512-EFrvGScoxhLNrPnWtT2Ia77whjF2TD4jrcyeh1jv9joCA2n5SUba+4XJciVSGmopqqQato6lwRnZSvMLJX7cyw==}
+
+  '@vaadin/vaadin-overlay@3.5.1':
+    resolution: {integrity: sha512-0g+poK/BXF92L2lSKrHMY5rcKzUxCBZNzP/NDwgi4a86nbjL7CAKKZdno7Yl+j8UsTR76nOEw4fAYTFi86B0qg==}
+
+  '@vaadin/vaadin-progress-bar@1.3.0':
+    resolution: {integrity: sha512-kPkG2M99UHHJVMX8TNN++KdU/rLTsDuDTNLUypcNVWDGDo0oHOY2P29yqwu8x6rGM3bIzgyQIgNSukKmIAjYcQ==}
+
+  '@vaadin/vaadin-themable-mixin@1.6.2':
+    resolution: {integrity: sha512-PZZOZnke3KUlZsDrRVbWxAGEeFBPRyRayNRCvip0XnQK+Zs3cLuRgdgbdro3Ir9LZ3Izsw6HqA6XNMKffEP67A==}
+
+  '@vaadin/vaadin-usage-statistics@2.1.3':
+    resolution: {integrity: sha512-8r4TNknD7OJQADe3VygeofFR7UNAXZ2/jjBFP5dgI8+2uMfnuGYgbuHivasKr9WSQ64sPej6m8rDoM1uSllXjQ==}
+    engines: {node: ^12.20.0 || ^14.13.1 || >=16.0.0}
+
   '@vitejs/plugin-react@4.6.0':
     resolution: {integrity: sha512-5Kgff+m8e2PB+9j51eGHEpn5kUzRKH2Ry0qGoe8ItJg7pqnkPrYPkDQZGgGmTa0EGarHrkjLvOdU3b1fzI8otQ==}
     engines: {node: ^14.18.0 || >=16.0.0}
     peerDependencies:
       vite: ^4.2.0 || ^5.0.0 || ^6.0.0 || ^7.0.0-beta.0
+
+  '@webcomponents/shadycss@1.11.2':
+    resolution: {integrity: sha512-vRq+GniJAYSBmTRnhCYPAPq6THYqovJ/gzGThWbgEZUQaBccndGTi1hdiUP15HzEco0I6t4RCtXyX0rsSmwgPw==}
 
   '@yr/monotone-cubic-spline@1.0.3':
     resolution: {integrity: sha512-FQXkOta0XBSUPHndIKON2Y9JeQz5ZeMqLYZVVK93FliNBFm7LNMIZmY6FrMEB9XPcDbE2bekMbZD6kzDkxwYjA==}
@@ -1798,6 +1893,12 @@ packages:
   lines-and-columns@1.2.4:
     resolution: {integrity: sha512-7ylylesZQ/PV29jhEDl3Ufjo6ZX7gCqJr5F7PKrqc93v7fzSymt1BpwEU8nAUXs8qzzvqhbjhK5QZg6Mt/HkBg==}
 
+  lit-element@2.5.1:
+    resolution: {integrity: sha512-ogu7PiJTA33bEK0xGu1dmaX5vhcRjBXCFexPja0e7P7jqLhTpNKYRPmE+GmiCaRVAbiQKGkUgkh/i6+bh++dPQ==}
+
+  lit-html@1.4.1:
+    resolution: {integrity: sha512-B9btcSgPYb1q4oSOb/PrOT6Z/H+r6xuNzfH4lFli/AWhYwdtrgQkQWBbIc6mdnf6E2IL3gDXdkkqNktpU0OZQA==}
+
   locate-path@6.0.0:
     resolution: {integrity: sha512-iPZK6eYjbxRu3uB4/WZ3EsEIMJFMqAoopl3R+zuq0UjcAm/MO6KCweDgPfP3elTztoKP3KtnVHxTn2NHBSDVUw==}
     engines: {node: '>=10'}
@@ -2398,6 +2499,9 @@ packages:
   ts-interface-checker@0.1.13:
     resolution: {integrity: sha512-Y/arvbn+rrz3JCKl9C4kVNfTfSm2/mEp5FSz5EsZSANGPSlQrpRI5M4PKF+mJnE52jOO90PnPSc3Ur3bTQw0gA==}
 
+  tslib@1.14.1:
+    resolution: {integrity: sha512-Xni35NKzjgMrwevysHTCArtLDpPvye8zV/0E4EyYn43P7/7qvQwPh9BGkHewbMulVntbigmcT7rdX3BNo9wRJg==}
+
   tslib@2.8.1:
     resolution: {integrity: sha512-oJFu94HQb+KVduSUQL7wnpmqnfmLsOA/nAh6b6EH0wCEoK0/mPeXU6c3wKDV83MkOuHPRHtSXKKU99IBazS/2w==}
 
@@ -2916,6 +3020,63 @@ snapshots:
       '@jridgewell/resolve-uri': 3.1.2
       '@jridgewell/sourcemap-codec': 1.5.0
 
+  '@material/animation@8.0.0-canary.a78ceb112.0':
+    dependencies:
+      tslib: 1.14.1
+
+  '@material/base@8.0.0-canary.a78ceb112.0':
+    dependencies:
+      tslib: 1.14.1
+
+  '@material/dom@8.0.0-canary.a78ceb112.0':
+    dependencies:
+      '@material/feature-targeting': 8.0.0-canary.a78ceb112.0
+      tslib: 1.14.1
+
+  '@material/feature-targeting@8.0.0-canary.a78ceb112.0': {}
+
+  '@material/mwc-base@0.17.2':
+    dependencies:
+      '@material/base': 8.0.0-canary.a78ceb112.0
+      '@material/dom': 8.0.0-canary.a78ceb112.0
+      lit-element: 2.5.1
+      tslib: 1.14.1
+
+  '@material/mwc-button@0.17.2':
+    dependencies:
+      '@material/mwc-icon': 0.17.2
+      '@material/mwc-ripple': 0.17.2
+      lit-element: 2.5.1
+      lit-html: 1.4.1
+      tslib: 1.14.1
+
+  '@material/mwc-icon@0.17.2':
+    dependencies:
+      lit-element: 2.5.1
+      tslib: 1.14.1
+
+  '@material/mwc-ripple@0.17.2':
+    dependencies:
+      '@material/dom': 8.0.0-canary.a78ceb112.0
+      '@material/mwc-base': 0.17.2
+      '@material/ripple': 8.0.0-canary.a78ceb112.0
+      lit-element: 2.5.1
+      lit-html: 1.4.1
+      tslib: 1.14.1
+
+  '@material/ripple@8.0.0-canary.a78ceb112.0':
+    dependencies:
+      '@material/animation': 8.0.0-canary.a78ceb112.0
+      '@material/base': 8.0.0-canary.a78ceb112.0
+      '@material/dom': 8.0.0-canary.a78ceb112.0
+      '@material/feature-targeting': 8.0.0-canary.a78ceb112.0
+      '@material/theme': 8.0.0-canary.a78ceb112.0
+      tslib: 1.14.1
+
+  '@material/theme@8.0.0-canary.a78ceb112.0':
+    dependencies:
+      '@material/feature-targeting': 8.0.0-canary.a78ceb112.0
+
   '@mui/core-downloads-tracker@6.4.12': {}
 
   '@mui/material@6.4.12(@emotion/react@11.14.0(@types/react@18.3.23)(react@18.3.1))(@emotion/styled@11.14.0(@emotion/react@11.14.0(@types/react@18.3.23)(react@18.3.1))(@types/react@18.3.23)(react@18.3.1))(@types/react@18.3.23)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)':
@@ -3071,6 +3232,33 @@ snapshots:
 
   '@pkgjs/parseargs@0.11.0':
     optional: true
+
+  '@polymer/iron-flex-layout@3.0.1':
+    dependencies:
+      '@polymer/polymer': 3.5.2
+
+  '@polymer/iron-icon@3.0.1':
+    dependencies:
+      '@polymer/iron-flex-layout': 3.0.1
+      '@polymer/iron-meta': 3.0.1
+      '@polymer/polymer': 3.5.2
+
+  '@polymer/iron-iconset-svg@3.0.1':
+    dependencies:
+      '@polymer/iron-meta': 3.0.1
+      '@polymer/polymer': 3.5.2
+
+  '@polymer/iron-meta@3.0.1':
+    dependencies:
+      '@polymer/polymer': 3.5.2
+
+  '@polymer/iron-resizable-behavior@3.0.1':
+    dependencies:
+      '@polymer/polymer': 3.5.2
+
+  '@polymer/polymer@3.5.2':
+    dependencies:
+      '@webcomponents/shadycss': 1.11.2
 
   '@popperjs/core@2.11.8': {}
 
@@ -3281,6 +3469,16 @@ snapshots:
   '@rollup/rollup-win32-x64-msvc@4.44.0':
     optional: true
 
+  '@snapbot/whatsapp-widget@0.0.15':
+    dependencies:
+      '@material/mwc-button': 0.17.2
+      '@polymer/polymer': 3.5.2
+      '@vaadin/vaadin-button': 2.4.0
+      '@vaadin/vaadin-dialog': 2.6.0
+      '@vaadin/vaadin-progress-bar': 1.3.0
+      lit-element: 2.5.1
+      lit-html: 1.4.1
+
   '@socket.io/component-emitter@3.1.2': {}
 
   '@standard-schema/spec@1.0.0': {}
@@ -3471,6 +3669,72 @@ snapshots:
 
   '@ungap/structured-clone@1.3.0': {}
 
+  '@vaadin/vaadin-button@2.4.0':
+    dependencies:
+      '@polymer/polymer': 3.5.2
+      '@vaadin/vaadin-control-state-mixin': 2.2.6
+      '@vaadin/vaadin-element-mixin': 2.4.2
+      '@vaadin/vaadin-lumo-styles': 1.6.1
+      '@vaadin/vaadin-material-styles': 1.3.2
+      '@vaadin/vaadin-themable-mixin': 1.6.2
+
+  '@vaadin/vaadin-control-state-mixin@2.2.6':
+    dependencies:
+      '@polymer/polymer': 3.5.2
+
+  '@vaadin/vaadin-development-mode-detector@2.0.7': {}
+
+  '@vaadin/vaadin-dialog@2.6.0':
+    dependencies:
+      '@polymer/iron-resizable-behavior': 3.0.1
+      '@polymer/polymer': 3.5.2
+      '@vaadin/vaadin-element-mixin': 2.4.2
+      '@vaadin/vaadin-lumo-styles': 1.6.1
+      '@vaadin/vaadin-material-styles': 1.3.2
+      '@vaadin/vaadin-overlay': 3.5.1
+      '@vaadin/vaadin-themable-mixin': 1.6.2
+
+  '@vaadin/vaadin-element-mixin@2.4.2':
+    dependencies:
+      '@polymer/polymer': 3.5.2
+      '@vaadin/vaadin-development-mode-detector': 2.0.7
+      '@vaadin/vaadin-usage-statistics': 2.1.3
+
+  '@vaadin/vaadin-lumo-styles@1.6.1':
+    dependencies:
+      '@polymer/iron-icon': 3.0.1
+      '@polymer/iron-iconset-svg': 3.0.1
+      '@polymer/polymer': 3.5.2
+
+  '@vaadin/vaadin-material-styles@1.3.2':
+    dependencies:
+      '@polymer/polymer': 3.5.2
+
+  '@vaadin/vaadin-overlay@3.5.1':
+    dependencies:
+      '@polymer/polymer': 3.5.2
+      '@vaadin/vaadin-element-mixin': 2.4.2
+      '@vaadin/vaadin-lumo-styles': 1.6.1
+      '@vaadin/vaadin-material-styles': 1.3.2
+      '@vaadin/vaadin-themable-mixin': 1.6.2
+
+  '@vaadin/vaadin-progress-bar@1.3.0':
+    dependencies:
+      '@polymer/polymer': 3.5.2
+      '@vaadin/vaadin-element-mixin': 2.4.2
+      '@vaadin/vaadin-lumo-styles': 1.6.1
+      '@vaadin/vaadin-material-styles': 1.3.2
+      '@vaadin/vaadin-themable-mixin': 1.6.2
+
+  '@vaadin/vaadin-themable-mixin@1.6.2':
+    dependencies:
+      '@polymer/polymer': 3.5.2
+      lit-element: 2.5.1
+
+  '@vaadin/vaadin-usage-statistics@2.1.3':
+    dependencies:
+      '@vaadin/vaadin-development-mode-detector': 2.0.7
+
   '@vitejs/plugin-react@4.6.0(vite@5.4.19(@types/node@20.19.1))':
     dependencies:
       '@babel/core': 7.27.4
@@ -3482,6 +3746,8 @@ snapshots:
       vite: 5.4.19(@types/node@20.19.1)
     transitivePeerDependencies:
       - supports-color
+
+  '@webcomponents/shadycss@1.11.2': {}
 
   '@yr/monotone-cubic-spline@1.0.3': {}
 
@@ -4230,6 +4496,12 @@ snapshots:
 
   lines-and-columns@1.2.4: {}
 
+  lit-element@2.5.1:
+    dependencies:
+      lit-html: 1.4.1
+
+  lit-html@1.4.1: {}
+
   locate-path@6.0.0:
     dependencies:
       p-locate: 5.0.0
@@ -4834,6 +5106,8 @@ snapshots:
       typescript: 5.8.3
 
   ts-interface-checker@0.1.13: {}
+
+  tslib@1.14.1: {}
 
   tslib@2.8.1: {}
 

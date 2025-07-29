@@ -8,6 +8,7 @@ const socket = io("https://site-visitors-tracker.onrender.com", {
 
 export const usePageViews = () => {
   const [count, setCount] = useState<number | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
   const hasTracked = useRef(false);
 
   useEffect(() => {
@@ -30,12 +31,13 @@ export const usePageViews = () => {
         setCount(res.data.count);
       } catch (err) {
         console.error("Page view tracking failed", err);
+      } finally {
+        setIsLoading(false);
       }
     };
 
     fetchViews();
 
-    // Listen to real-time updates
     socket.on("visit_update", (data) => {
       setCount(data.count);
     });
@@ -45,5 +47,5 @@ export const usePageViews = () => {
     };
   }, []);
 
-  return count;
+  return { count, isLoading };
 };

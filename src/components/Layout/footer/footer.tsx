@@ -7,12 +7,13 @@ import useInsurance from "@/hooks/UseInsurance";
 import { toast } from "react-toastify";
 import { usePageViews } from "../../../hooks/usePageViews";
 import Counter from "./Counter";
+import { FaSpinner } from "react-icons/fa6";
 
 export default function Footer() {
   const { SubmitToNewsLetter } = useInsurance();
   const [email, setEmail] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const pageViewCount = usePageViews();
+  const { count: pageViewCount, isLoading: isPageViewLoading } = usePageViews();
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -130,34 +131,38 @@ export default function Footer() {
           </div>
 
           {/* Page Views */}
-          {pageViewCount !== null && (
-            <div className="text-white text-sm text-right md:text-left md:pl-20">
-              <div className="inline-flex items-center gap-4 bg-zinc-900/80 border border-white/10 shadow-inner backdrop-blur-sm px-4 py-3 rounded-2xl">
-                <div className="flex flex-col">
-                  <span className="text-[13px] text-gray-400 leading-tight">
-                    Visitors today
+          <div className="text-white text-sm text-right md:text-left md:pl-20">
+            <div className="inline-flex items-center gap-4 bg-zinc-900/80 border border-white/10 shadow-inner backdrop-blur-sm px-4 py-3 rounded-2xl">
+              <div className="flex flex-col">
+                <span className="text-[13px] text-gray-400 leading-tight">
+                  Visitors today
+                </span>
+                {isPageViewLoading ? (
+                  <span className="text-white animate-pulse text-xl font-bold mt-2">
+                    <FaSpinner className="animate-spin" />
                   </span>
-                  <Counter number={pageViewCount} />
-                </div>
-                <div className="p-2 bg-lime-500/10 rounded-full text-lime-400">
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    className="h-5 w-5"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M3 10h2l.4 2M7 16h10l1-2H6l1 2zm0 0l1 2h8l1-2m-3-6h4m-4 0H9m4 0V4m0 6v4"
-                    />
-                  </svg>
-                </div>
+                ) : (
+                  <Counter number={pageViewCount ?? 0} />
+                )}
+              </div>
+              <div className="p-2 bg-lime-500/10 rounded-full text-lime-400">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="h-5 w-5"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M3 10h2l.4 2M7 16h10l1-2H6l1 2zm0 0l1 2h8l1-2m-3-6h4m-4 0H9m4 0V4m0 6v4"
+                  />
+                </svg>
               </div>
             </div>
-          )}
+          </div>
         </div>
 
         {/* Copyright */}
