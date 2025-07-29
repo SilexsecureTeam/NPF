@@ -19,7 +19,6 @@
     "@mui/x-charts": "^7.19.0",
     "@react-spring/web": "^10.0.1",
     "@reduxjs/toolkit": "^2.2.7",
-    "@snapbot/whatsapp-widget": "^0.0.15",
     "@tawk.to/tawk-messenger-react": "^2.0.2",
     "apexcharts": "^3.51.0",
     "axios": "^1.7.3",
