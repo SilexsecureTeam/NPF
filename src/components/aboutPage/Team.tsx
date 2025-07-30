@@ -41,7 +41,7 @@ const Team = () => {
           {teamMembers.map((member: any, index: number) => (
             <TeamImageCard
               key={index}
-              img={member?.image_url}
+              img={`https://dash.npfinsurance.com/uploads/${member?.image}`}
               name={member?.name}
               position={member?.title}
             />
