@@ -1,35 +1,32 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
+import { useLocation } from "react-router-dom";
 import axios from "axios";
-// import { io } from "socket.io-client";
-
-// const socket = io("https://site-visitors-tracker.onrender.com", {
-//   withCredentials: true,
-// });
 
 export const usePageViews = () => {
+  const location = useLocation();
   const [count, setCount] = useState<number | null>(null);
   const [isLoading, setIsLoading] = useState(true);
-  const hasTracked = useRef(false);
 
   useEffect(() => {
-    if (hasTracked.current) return;
-    hasTracked.current = true;
-
     const fetchViews = async () => {
       try {
+        const page_url = window.location.href;
+        const page_title = document.title;
+
         await axios.post(
           "https://dash.npfinsurance.com/api/page-visits/record",
           {
-            page_url: window.location.href,
-            page_title: document.title,
+            page_url,
+            page_title,
           }
         );
 
-        const res = await axios.get(
-          `https://dash.npfinsurance.com/api/page-visits?page_url=${window.location.href}`
+        const { data } = await axios.get(
+          `https://dash.npfinsurance.com/api/page-visits?page_url=${page_url}`
         );
 
-        setCount(res.data.count);
+        setCount(data.data.total);
+        console.log("Page view count:", data);
       } catch (err) {
         console.error("Page view tracking failed", err);
       } finally {
@@ -38,15 +35,7 @@ export const usePageViews = () => {
     };
 
     fetchViews();
-
-    // socket.on("visit_update", (data) => {
-    //   setCount(data.count);
-    // });
-
-    // return () => {
-    //   socket.off("visit_update");
-    // };
-  }, []);
+  }, [location.pathname]); // 🔁 runs on every route change
 
   return { count, isLoading };
 };
