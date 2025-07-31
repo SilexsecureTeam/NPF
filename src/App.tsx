@@ -2,7 +2,7 @@ import { Route, Routes, Navigate } from "react-router-dom";
 import "./App.css";
 import ButtonT from "@/pages/Ui/button";
 import ExampleForm from "./pages/Ui/textinput";
-import Home_page from './pages/home/home_page';
+import Home_page from "./pages/home/home_page";
 import Motor_insurance_quote from "./pages/Motor_insurance_quote/Motor_insurance_quote";
 import Motor_insurance_quote_landing from "./pages/Motor_insurance_quote/Motor_insurance_quote_landing";
 import About_page from "./pages/about/about_page";
@@ -40,6 +40,7 @@ import BlogPage from "./components/BlogPage/Blog";
 import BlogDetail from "./components/BlogPage/BLogDetail";
 import AdminContactPage from "./pages/Admin/AdminPages/AdminContactPage/AdminContactPage";
 import AdminBoard from "./pages/Admin/AdminBoard/Board";
+import TeamMembers from "./pages/Admin/Team/Team";
 import { NavigationProvider } from "./components/Ui/NavigationContext";
 import AdminSignupPage from "./components/AdminAuth/AdminSignup";
 import AdminOtpVerificationPage from "./components/AdminAuth/AdminOTP";
@@ -68,34 +69,199 @@ function App() {
           <>
             <Routes>
               {/* Maintenance Page */}
-              <Route path="/site-maintenance" element={<SiteMaintenancePage />} />
+              <Route
+                path="/site-maintenance"
+                element={<SiteMaintenancePage />}
+              />
 
               {/* Protected Public Pages */}
-              <Route path="/" element={<ProtectedRoute path="/" element={<Home_page />} />} />
-              <Route path="/about" element={<ProtectedRoute path="/about" element={<About_page />} />} />
-              <Route path="/about/superboard" element={<ProtectedRoute path="/about/superboard" element={<SuperBoard_page />} />} />
-              <Route path="/contact" element={<ProtectedRoute path="/contact" element={<Contact_page />} />} />
-              <Route path="/blog" element={<ProtectedRoute path="/blog" element={<BlogPage />} />} />
-              <Route path="/blog/:id" element={<ProtectedRoute path="/blog/:id" element={<BlogDetail />} />} />
-              <Route path="/privacy-policy" element={<ProtectedRoute path="/privacy-policy" element={<Privacy_policy />} />} />
-              <Route path="/claims" element={<ProtectedRoute path="/claims" element={<Claims_page />} />} />
-              <Route path="/make-a-claim" element={<ProtectedRoute path="/make-a-claim" element={<ClaimForm />} />} />
-              <Route path="/motor-insurance-quote" element={<ProtectedRoute path="/motor-insurance-quote" element={<Motor_insurance_quote_landing />} />} />
-              <Route path="/motor-insurance-quote-form" element={<ProtectedRoute path="/motor-insurance-quote-form" element={<Motor_insurance_quote />} />} />
+              <Route
+                path="/"
+                element={<ProtectedRoute path="/" element={<Home_page />} />}
+              />
+              <Route
+                path="/about"
+                element={
+                  <ProtectedRoute path="/about" element={<About_page />} />
+                }
+              />
+              <Route
+                path="/about/superboard"
+                element={
+                  <ProtectedRoute
+                    path="/about/superboard"
+                    element={<SuperBoard_page />}
+                  />
+                }
+              />
+              <Route
+                path="/contact"
+                element={
+                  <ProtectedRoute path="/contact" element={<Contact_page />} />
+                }
+              />
+              <Route
+                path="/blog"
+                element={<ProtectedRoute path="/blog" element={<BlogPage />} />}
+              />
+              <Route
+                path="/blog/:id"
+                element={
+                  <ProtectedRoute path="/blog/:id" element={<BlogDetail />} />
+                }
+              />
+              <Route
+                path="/privacy-policy"
+                element={
+                  <ProtectedRoute
+                    path="/privacy-policy"
+                    element={<Privacy_policy />}
+                  />
+                }
+              />
+              <Route
+                path="/claims"
+                element={
+                  <ProtectedRoute path="/claims" element={<Claims_page />} />
+                }
+              />
+              <Route
+                path="/make-a-claim"
+                element={
+                  <ProtectedRoute
+                    path="/make-a-claim"
+                    element={<ClaimForm />}
+                  />
+                }
+              />
+              <Route
+                path="/motor-insurance-quote"
+                element={
+                  <ProtectedRoute
+                    path="/motor-insurance-quote"
+                    element={<Motor_insurance_quote_landing />}
+                  />
+                }
+              />
+              <Route
+                path="/motor-insurance-quote-form"
+                element={
+                  <ProtectedRoute
+                    path="/motor-insurance-quote-form"
+                    element={<Motor_insurance_quote />}
+                  />
+                }
+              />
 
               {/* Protected Services Pages */}
-              <Route path="/services" element={<ProtectedRoute path="/services" element={<Motor_Insurance_Service_Landing />} />} />
-              <Route path="/services/fire-specials-insurance" element={<ProtectedRoute path="/services/fire-specials-insurance" element={<Fire_Specials_Service_Landing />} />} />
-              <Route path="/services/motor-insurance" element={<ProtectedRoute path="/services/motor-insurance" element={<Motor_Insurance_Service_Landing />} />} />
-              <Route path="/services/burglary-theft-insurance" element={<ProtectedRoute path="/services/burglary-theft-insurance" element={<Burglary_Theft_Service_Landing />} />} />
-              <Route path="/services/plant-insurance" element={<ProtectedRoute path="/services/plant-insurance" element={<Plant_Service_Landing />} />} />
-              <Route path="/services/public-liability-insurance" element={<ProtectedRoute path="/services/public-liability-insurance" element={<Public_Liability_Service_Landing />} />} />
-              <Route path="/services/money-insurance" element={<ProtectedRoute path="/services/money-insurance" element={<Money_Service_Landing />} />} />
-              <Route path="/services/machinery-insurance" element={<ProtectedRoute path="/services/machinery-insurance" element={<Machinery_Insurance_Service_Landing />} />} />
-              <Route path="/services/claims-management" element={<ProtectedRoute path="/services/claims-management" element={<Claims_Management_Service_Landing />} />} />
-              <Route path="/services/group-personal-insurance" element={<ProtectedRoute path="/services/group-personal-insurance" element={<Group_Personal_Insurance_Service_Landing />} />} />
-              <Route path="/services/occupiers-liability-insurance" element={<ProtectedRoute path="/services/occupiers-liability-insurance" element={<Occupiers_Liability_Service_Landing />} />} />
-              <Route path="/services/view/:serviceId" element={<ProtectedRoute path="/services/view/:serviceId" element={<ServiceDetailPage />} />} />
+              <Route
+                path="/services"
+                element={
+                  <ProtectedRoute
+                    path="/services"
+                    element={<Motor_Insurance_Service_Landing />}
+                  />
+                }
+              />
+              <Route
+                path="/services/fire-specials-insurance"
+                element={
+                  <ProtectedRoute
+                    path="/services/fire-specials-insurance"
+                    element={<Fire_Specials_Service_Landing />}
+                  />
+                }
+              />
+              <Route
+                path="/services/motor-insurance"
+                element={
+                  <ProtectedRoute
+                    path="/services/motor-insurance"
+                    element={<Motor_Insurance_Service_Landing />}
+                  />
+                }
+              />
+              <Route
+                path="/services/burglary-theft-insurance"
+                element={
+                  <ProtectedRoute
+                    path="/services/burglary-theft-insurance"
+                    element={<Burglary_Theft_Service_Landing />}
+                  />
+                }
+              />
+              <Route
+                path="/services/plant-insurance"
+                element={
+                  <ProtectedRoute
+                    path="/services/plant-insurance"
+                    element={<Plant_Service_Landing />}
+                  />
+                }
+              />
+              <Route
+                path="/services/public-liability-insurance"
+                element={
+                  <ProtectedRoute
+                    path="/services/public-liability-insurance"
+                    element={<Public_Liability_Service_Landing />}
+                  />
+                }
+              />
+              <Route
+                path="/services/money-insurance"
+                element={
+                  <ProtectedRoute
+                    path="/services/money-insurance"
+                    element={<Money_Service_Landing />}
+                  />
+                }
+              />
+              <Route
+                path="/services/machinery-insurance"
+                element={
+                  <ProtectedRoute
+                    path="/services/machinery-insurance"
+                    element={<Machinery_Insurance_Service_Landing />}
+                  />
+                }
+              />
+              <Route
+                path="/services/claims-management"
+                element={
+                  <ProtectedRoute
+                    path="/services/claims-management"
+                    element={<Claims_Management_Service_Landing />}
+                  />
+                }
+              />
+              <Route
+                path="/services/group-personal-insurance"
+                element={
+                  <ProtectedRoute
+                    path="/services/group-personal-insurance"
+                    element={<Group_Personal_Insurance_Service_Landing />}
+                  />
+                }
+              />
+              <Route
+                path="/services/occupiers-liability-insurance"
+                element={
+                  <ProtectedRoute
+                    path="/services/occupiers-liability-insurance"
+                    element={<Occupiers_Liability_Service_Landing />}
+                  />
+                }
+              />
+              <Route
+                path="/services/view/:serviceId"
+                element={
+                  <ProtectedRoute
+                    path="/services/view/:serviceId"
+                    element={<ServiceDetailPage />}
+                  />
+                }
+              />
 
               {/* UI Testing Routes - Not Protected */}
               <Route path="/ui/button" element={<ButtonT />} />
@@ -105,48 +271,127 @@ function App() {
               <Route path="/auth/signin" element={<Signin />} />
               <Route path="/auth/signup" element={<Signup />} />
               <Route path="/auth/otp" element={<OtpVerification />} />
-              <Route path="/auth/forgot-password" element={<ForgotPassword />} />
+              <Route
+                path="/auth/forgot-password"
+                element={<ForgotPassword />}
+              />
               <Route path="/auth/reset-password" element={<ResetPassword />} />
 
               {/* User Dashboard Routes - Not Protected */}
               <Route path="/dashboard/home" element={<DashboardHomePage />} />
-              <Route path="/dashboard/certificates" element={<DashboardCertificatesPage />} />
-              <Route path="/dashboard/claims" element={<DashboardClaimsPage />} />
-              <Route path="/dashboard/payment" element={<DashboardPaymentPage />} />
+              <Route
+                path="/dashboard/certificates"
+                element={<DashboardCertificatesPage />}
+              />
+              <Route
+                path="/dashboard/claims"
+                element={<DashboardClaimsPage />}
+              />
+              <Route
+                path="/dashboard/payment"
+                element={<DashboardPaymentPage />}
+              />
 
               {/* Admin Routes - Not Protected */}
               <Route path="/admin/dashboard/home" element={<AdminHome />} />
-              <Route path="/admin/dashboard/profile" element={<AdminUserDetails />} />
+              <Route
+                path="/admin/dashboard/profile"
+                element={<AdminUserDetails />}
+              />
               <Route path="/admin/dashboard/pages" element={<AdminPages />} />
-              <Route path="/admin/dashboard/add-page" element={<AdminAddPage />} />
-              <Route path="/admin/dashboard/edit-page/:serviceId" element={<AdminEditPage />} />
-              <Route path="/admin/dashboard/contact-page" element={<AdminContactPage />} />
-              <Route path="/admin/dashboard/home-slider" element={<AdminSlider />} />
-              <Route path="/admin/dashboard/user-payments" element={<AllUserPayments />} />
-              <Route path="/admin/dashboard/user-payment/:id" element={<PaymentDetail />} />
-              <Route path="/admin/dashboard/packages" element={<AdminPackageCategories />} />
-              <Route path="/admin/dashboard/vehicle" element={<AdminVehicleManagement />} />
-              <Route path="/admin/dashboard/feedback" element={<AdminFeedback />} />
+              <Route
+                path="/admin/dashboard/add-page"
+                element={<AdminAddPage />}
+              />
+              <Route
+                path="/admin/dashboard/edit-page/:serviceId"
+                element={<AdminEditPage />}
+              />
+              <Route
+                path="/admin/dashboard/contact-page"
+                element={<AdminContactPage />}
+              />
+              <Route
+                path="/admin/dashboard/home-slider"
+                element={<AdminSlider />}
+              />
+              <Route
+                path="/admin/dashboard/user-payments"
+                element={<AllUserPayments />}
+              />
+              <Route
+                path="/admin/dashboard/user-payment/:id"
+                element={<PaymentDetail />}
+              />
+              <Route
+                path="/admin/dashboard/packages"
+                element={<AdminPackageCategories />}
+              />
+              <Route
+                path="/admin/dashboard/vehicle"
+                element={<AdminVehicleManagement />}
+              />
+              <Route
+                path="/admin/dashboard/feedback"
+                element={<AdminFeedback />}
+              />
               <Route path="/admin/delete-admin" element={<AdminManagement />} />
 
               {/* Admin Auth Routes */}
-              <Route path="/admin/dashboard/auth/signup" element={<AdminSignupPage />} />
-              <Route path="/admin/dashboard/auth/signin" element={<AdminLoginPage />} />
-              <Route path="/admin/dashboard/auth/reset-pwd" element={<AdminForgotPasswordEmail />} />
-              <Route path="/admin/dashboard/auth/reset-pwd-verification" element={<AdminResetPassword />} />
-              <Route path="/admin/dashboard/auth/change-pwd" element={<AdminChangePassword />} />
-              <Route path="/admin/dashboard/auth/otp-verification" element={<AdminOtpVerificationPage />} />
-              <Route path="/admin/dashboard/auth/admin-signin-verification" element={<AdminOtpVerificationPage />} />
+              <Route
+                path="/admin/dashboard/auth/signup"
+                element={<AdminSignupPage />}
+              />
+              <Route
+                path="/admin/dashboard/auth/signin"
+                element={<AdminLoginPage />}
+              />
+              <Route
+                path="/admin/dashboard/auth/reset-pwd"
+                element={<AdminForgotPasswordEmail />}
+              />
+              <Route
+                path="/admin/dashboard/auth/reset-pwd-verification"
+                element={<AdminResetPassword />}
+              />
+              <Route
+                path="/admin/dashboard/auth/change-pwd"
+                element={<AdminChangePassword />}
+              />
+              <Route
+                path="/admin/dashboard/auth/otp-verification"
+                element={<AdminOtpVerificationPage />}
+              />
+              <Route
+                path="/admin/dashboard/auth/admin-signin-verification"
+                element={<AdminOtpVerificationPage />}
+              />
 
               {/* Admin Blog Routes */}
-              <Route path="/admin/dashboard/blog" element={<BlogCategories />} />
-              <Route path="/admin/dashboard/blog-post" element={<BlogPosts />} />
+              <Route
+                path="/admin/dashboard/blog"
+                element={<BlogCategories />}
+              />
+              <Route
+                path="/admin/dashboard/blog-post"
+                element={<BlogPosts />}
+              />
               <Route path="/admin/dashboard/board" element={<AdminBoard />} />
+              <Route path="/admin/dashboard/team" element={<TeamMembers />} />
 
               {/* Fallback Redirects */}
-              <Route path="/dashboard/*" element={<Navigate to="/dashboard/home" replace />} />
-              <Route path="/admin/*" element={<Navigate to="/admin/home/dashboard" replace />} />
-              <Route path="/auth/*" element={<Navigate to="/auth/signin" replace />} />
+              <Route
+                path="/dashboard/*"
+                element={<Navigate to="/dashboard/home" replace />}
+              />
+              <Route
+                path="/admin/*"
+                element={<Navigate to="/admin/home/dashboard" replace />}
+              />
+              <Route
+                path="/auth/*"
+                element={<Navigate to="/auth/signin" replace />}
+              />
               <Route path="*" element={<Navigate to="/" replace />} />
             </Routes>
           </>

@@ -18,13 +18,16 @@ export const usePageViews = () => {
     const fetchViews = async () => {
       try {
         await axios.post(
-          "https://site-visitors-tracker.onrender.com/api/track-visit",
-          {},
+          "https://dash.npfinsurance.com/api/page-visits/record",
+          {
+            page_url: window.location.href,
+            page_title: document.title,
+          },
           { withCredentials: true }
         );
 
         const res = await axios.get(
-          "https://site-visitors-tracker.onrender.com/api/today-visits",
+          `https://dash.npfinsurance.com/api/page-visits?page_url=${window.location.href}`,
           { withCredentials: true }
         );
 
@@ -38,13 +41,13 @@ export const usePageViews = () => {
 
     fetchViews();
 
-    socket.on("visit_update", (data) => {
-      setCount(data.count);
-    });
+    // socket.on("visit_update", (data) => {
+    //   setCount(data.count);
+    // });
 
-    return () => {
-      socket.off("visit_update");
-    };
+    // return () => {
+    //   socket.off("visit_update");
+    // };
   }, []);
 
   return { count, isLoading };
