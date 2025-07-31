@@ -1,10 +1,10 @@
 import { useEffect, useRef, useState } from "react";
 import axios from "axios";
-import { io } from "socket.io-client";
+// import { io } from "socket.io-client";
 
-const socket = io("https://site-visitors-tracker.onrender.com", {
-  withCredentials: true,
-});
+// const socket = io("https://site-visitors-tracker.onrender.com", {
+//   withCredentials: true,
+// });
 
 export const usePageViews = () => {
   const [count, setCount] = useState<number | null>(null);
