@@ -22,13 +22,11 @@ export const usePageViews = () => {
           {
             page_url: window.location.href,
             page_title: document.title,
-          },
-          { withCredentials: true }
+          }
         );
 
         const res = await axios.get(
-          `https://dash.npfinsurance.com/api/page-visits?page_url=${window.location.href}`,
-          { withCredentials: true }
+          `https://dash.npfinsurance.com/api/page-visits?page_url=${window.location.href}`
         );
 
         setCount(res.data.count);
