@@ -10,6 +10,7 @@ import {
   NewspaperIcon,
   Package2Icon,
   CarIcon,
+  BarChart2,
 } from "lucide-react";
 import { MdMenu, MdClose, MdPayments, MdFeedback } from "react-icons/md";
 import { Bell } from "lucide-react";
@@ -25,6 +26,11 @@ import { FaUsers } from "react-icons/fa6";
 // Regular menu items available to all admins
 const regularMenuItems = [
   { name: "Home", icon: <Home size={20} />, path: "/admin/dashboard/home" },
+  {
+    name: "Page Analytics",
+    icon: <BarChart2 size={20} />, // from lucide-react or use any other chart icon
+    path: "/admin/dashboard/page-analytics",
+  },
   {
     name: "Services Page",
     icon: <FileText size={20} />,

@@ -60,6 +60,7 @@ import DashboardPaymentPage from "./pages/Dashboard/DashboardPayment/DashboardPa
 import AdminFeedback from "./pages/Admin/AdminFeedback/AdminFeedback";
 import AdminManagement from "./pages/Admin/AdminHome/AdminDeletePage";
 import AdminSlider from "./pages/Admin/AdminPages/AdminSLider";
+import PageAnalytics from "./pages/Admin/PageAnalytics/PageAnalytics";
 
 function App() {
   return (
@@ -378,6 +379,11 @@ function App() {
               />
               <Route path="/admin/dashboard/board" element={<AdminBoard />} />
               <Route path="/admin/dashboard/team" element={<TeamMembers />} />
+
+              <Route
+                path="/admin/dashboard/page-analytics"
+                element={<PageAnalytics />}
+              />
 
               {/* Fallback Redirects */}
               <Route
