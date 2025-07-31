@@ -1,20 +1,21 @@
 import AdminDashboardLayout from "@/components/Layout/AdminLayout/AdminLayout";
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect } from "react";
 import TeamTable from "./TeamTable";
 import TeamModal from "./TeamModal";
 import DeleteConfirmDialog from "./DeleteConfirmDialog";
 import useInsurance from "@/hooks/UseInsurance";
 import { toast } from "react-toastify";
+import { BoardData } from "@/types";
 
 export default function Team() {
   const [members, setMembers] = useState([]);
   const [modalOpen, setModalOpen] = useState(false);
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
-  const [selectedMember, setSelectedMember] = useState(null);
+  const [selectedMember, setSelectedMember] = useState<BoardData | null>(null);
   const [editing, setEditing] = useState(false);
   const [deleteLoading, setDeleteLoading] = useState(false);
-  const [imagePreview, setImagePreview] = useState(null);
-  const fileRef = useRef(null);
+  //   const [imagePreview, setImagePreview] = useState(null);
+  //   const fileRef = useRef(null);
 
   const { getTeam, deleteTeamById } = useInsurance();
 
@@ -37,13 +38,13 @@ export default function Team() {
     setModalOpen(true);
   };
 
-  const handleEdit = (member) => {
+  const handleEdit = (member: BoardData) => {
     setSelectedMember(member);
     setEditing(true);
     setModalOpen(true);
   };
 
-  const handleDelete = (member) => {
+  const handleDelete = (member: BoardData) => {
     console.log("Editing member:", member);
     setSelectedMember(member);
     setDeleteDialogOpen(true);
@@ -53,7 +54,7 @@ export default function Team() {
     if (!selectedMember) return;
     setDeleteLoading(true); // show spinner
     try {
-      await deleteTeamById(selectedMember.id);
+      await deleteTeamById(selectedMember.id as number);
       toast.success("Member deleted");
       fetchMembers();
     } catch {
@@ -89,9 +90,6 @@ export default function Team() {
             closeModal={() => setModalOpen(false)}
             editing={editing}
             member={selectedMember}
-            imagePreview={imagePreview}
-            setImagePreview={setImagePreview}
-            fileRef={fileRef}
             fetchMembers={fetchMembers}
           />
         )}

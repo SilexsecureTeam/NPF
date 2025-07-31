@@ -17,7 +17,7 @@ const TeamModal = ({
   isOpen,
   closeModal,
   editing,
-  member,
+  member = null,
   fetchMembers,
 }: TeamModalProps) => {
   const { createTeam, updateTeam } = useInsurance();
@@ -27,22 +27,20 @@ const TeamModal = ({
     register,
     handleSubmit,
     formState: { errors, isSubmitting },
-    reset,
-    setValue,
     watch,
   } = useForm({
     defaultValues: {
-      title: member.title || "",
-      name: member.name || "",
-      description: member.description || "",
+      title: member?.title || "",
+      name: member?.name || "",
+      description: member?.description || "",
       image: null,
     },
   });
 
-  const watchedImage = watch("image");
+  const watchedImage = watch("image") as FileList | null;
 
   useEffect(() => {
-    if (watchedImage && watchedImage.length > 0) {
+    if (watchedImage && watchedImage?.length > 0) {
       const file = watchedImage[0];
       const reader = new FileReader();
       reader.onloadend = () => setImagePreview(reader.result as string);
