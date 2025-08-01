@@ -108,6 +108,11 @@ const TeamModal = ({
       console.error("Error submitting form:", error);
     }
   };
+  useEffect(() => {
+    if (editing && member?.image && !imagePreview) {
+      setImagePreview(`https://dash.npfinsurance.com/uploads/${member.image}`); // Ensure this is a full image URL
+    }
+  }, [editing, member, imagePreview]);
 
   return (
     <Transition appear show={isOpen} as={Fragment}>
