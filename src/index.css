@@ -1,4 +1,3 @@
-
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -6,6 +5,7 @@
 /* Custom scrollbar styling for WebKit browsers */
 ::-webkit-scrollbar {
   width: 5px;
+  height: 5px;
 }
 
 ::-webkit-scrollbar-track {
@@ -19,13 +19,22 @@
 }
 
 ::-webkit-scrollbar-thumb {
-    background: linear-gradient(45deg, blue, cyan); /* Gradient color of the scrollbar thumb */
-    border-radius: 20px; 
-  }
-  
-  ::-webkit-scrollbar-thumb:hover {
-    background: linear-gradient(45deg, darkblue, purple); /* Gradient color of the scrollbar thumb on hover */
-  }
+  background: linear-gradient(
+    45deg,
+    green,
+    olivedrab,
+    darkgreen
+  ); /* Gradient color of the scrollbar thumb */
+  border-radius: 20px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(
+    45deg,
+    #4caf50,
+    #8bc34a
+  ); /* Gradient color of the scrollbar thumb on hover */
+}
 @media (min-width: 1024px) {
   .glass {
     background: rgba(104, 104, 104, 0.2);
@@ -43,7 +52,6 @@
   width: 100% !important;
   height: 100vh !important;
 }
-
 
 .blink-effect {
   animation: blink 1.5s infinite;

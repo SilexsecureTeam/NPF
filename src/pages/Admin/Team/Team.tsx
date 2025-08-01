@@ -6,25 +6,28 @@ import DeleteConfirmDialog from "./DeleteConfirmDialog";
 import useInsurance from "@/hooks/UseInsurance";
 import { toast } from "react-toastify";
 import { BoardData } from "@/types";
+import { FaSpinner } from "react-icons/fa";
 
 export default function Team() {
-  const [members, setMembers] = useState([]);
+  const [members, setMembers] = useState<BoardData[]>([]);
   const [modalOpen, setModalOpen] = useState(false);
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
   const [selectedMember, setSelectedMember] = useState<BoardData | null>(null);
   const [editing, setEditing] = useState(false);
   const [deleteLoading, setDeleteLoading] = useState(false);
-  //   const [imagePreview, setImagePreview] = useState(null);
-  //   const fileRef = useRef(null);
+  const [loading, setLoading] = useState(true); // 👈 new loading state
 
   const { getTeam, deleteTeamById } = useInsurance();
 
   const fetchMembers = async () => {
+    setLoading(true);
     try {
       const res = await getTeam();
       setMembers(res);
     } catch {
       toast.error("Failed to load team members.");
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -45,14 +48,13 @@ export default function Team() {
   };
 
   const handleDelete = (member: BoardData) => {
-    console.log("Editing member:", member);
     setSelectedMember(member);
     setDeleteDialogOpen(true);
   };
 
   const confirmDelete = async () => {
     if (!selectedMember) return;
-    setDeleteLoading(true); // show spinner
+    setDeleteLoading(true);
     try {
       await deleteTeamById(selectedMember.id as number);
       toast.success("Member deleted");
@@ -61,7 +63,7 @@ export default function Team() {
       toast.error("Failed to delete member.");
     } finally {
       setDeleteDialogOpen(false);
-      setDeleteLoading(false); //hide spinner
+      setDeleteLoading(false);
     }
   };
 
@@ -78,11 +80,17 @@ export default function Team() {
           </button>
         </div>
 
-        <TeamTable
-          members={members}
-          onEdit={handleEdit}
-          onDelete={handleDelete}
-        />
+        {loading ? (
+          <div className="flex justify-center items-center py-20">
+            <FaSpinner className="animate-spin text-green-600 text-4xl" />
+          </div>
+        ) : (
+          <TeamTable
+            members={members}
+            onEdit={handleEdit}
+            onDelete={handleDelete}
+          />
+        )}
 
         {modalOpen && (
           <TeamModal
