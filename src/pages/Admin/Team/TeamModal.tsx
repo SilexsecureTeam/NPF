@@ -22,6 +22,11 @@ const TeamModal = ({
 }: TeamModalProps) => {
   const { createTeam, updateTeam } = useInsurance();
   const [imagePreview, setImagePreview] = useState<string | null>(null);
+  const [imageError, setImageError] = useState<string | null>(null);
+  const [imageDimensions, setImageDimensions] = useState<{
+    width: number;
+    height: number;
+  } | null>(null);
 
   const {
     register,
@@ -40,16 +45,46 @@ const TeamModal = ({
   const watchedImage = watch("image") as FileList | null;
 
   useEffect(() => {
-    if (watchedImage && watchedImage?.length > 0) {
+    if (watchedImage && watchedImage.length > 0) {
       const file = watchedImage[0];
       const reader = new FileReader();
-      reader.onloadend = () => setImagePreview(reader.result as string);
+
+      reader.onloadend = () => {
+        const img = new Image();
+        img.onload = () => {
+          const width = img.width;
+          const height = img.height;
+
+          setImageDimensions({ width, height });
+
+          const isSquare = width === height;
+          const validSize = width >= 200 && width <= 1000;
+
+          if (!isSquare || !validSize) {
+            setImageError(
+              `Image must be square and between 300x300 and 1000x1000 pixels. Uploaded image is ${width}x${height}.`
+            );
+            setImagePreview(null);
+          } else {
+            setImageError(null);
+            setImagePreview(reader.result as string);
+          }
+        };
+        img.src = reader.result as string;
+      };
+
       reader.readAsDataURL(file);
+    } else {
+      setImagePreview(null);
+      setImageError(null);
+      setImageDimensions(null);
     }
   }, [watchedImage]);
 
   const onSubmit = async (data: any) => {
     try {
+      if (imageError) return;
+
       const formData: any = {
         title: data.title,
         name: data.name,
@@ -57,7 +92,7 @@ const TeamModal = ({
       };
 
       if (data.image && data.image.length > 0) {
-        formData.image = data.image[0]; // assign actual File instance
+        formData.image = data.image[0];
       }
 
       if (editing && member?.id) {
@@ -171,6 +206,15 @@ const TeamModal = ({
                       {...register("image")}
                       className="mt-1 block w-full"
                     />
+                    {imageError && (
+                      <p className="text-sm text-red-500 mt-1">{imageError}</p>
+                    )}
+                    {imageDimensions && !imageError && (
+                      <p className="text-sm text-gray-500 mt-1">
+                        Uploaded image size: {imageDimensions.width}x
+                        {imageDimensions.height} px
+                      </p>
+                    )}
                     {imagePreview && (
                       <img
                         src={imagePreview}
