@@ -91,38 +91,6 @@ const AnalyticsDashboard = () => {
     operating_system_statistics,
   } = data;
 
-  const groupedPages = Object.values(
-    top_pages.reduce(
-      (
-        acc: Record<string, { path: string; title: string; count: number }>,
-        curr
-      ) => {
-        let pathname = "/";
-        try {
-          pathname = new URL(curr.page_url, "http://localhost").pathname;
-        } catch {
-          pathname = curr.page_url.startsWith("/") ? curr.page_url : "/";
-        }
-
-        if (!acc[pathname]) {
-          acc[pathname] = {
-            path: pathname,
-            title: curr.page_title,
-            count: curr.visit_count,
-          };
-        } else {
-          acc[pathname].count += curr.visit_count;
-          if (acc[pathname].title !== curr.page_title) {
-            acc[pathname].title = "Multiple Titles";
-          }
-        }
-
-        return acc;
-      },
-      {}
-    )
-  );
-
   return (
     <AdminDashboardLayout>
       <div className="p-6 space-y-8">
