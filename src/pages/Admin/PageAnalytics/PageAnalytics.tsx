@@ -15,18 +15,65 @@ import {
 } from "recharts";
 
 const COLORS = [
-  "#16a34a", // emerald-600
-  "#22c55e", // green-500
-  "#4ade80", // green-400
-  "#86efac", // green-300
-  "#bbf7d0", // green-200
-  "#dcfce7", // green-100
+  "#16a34a",
+  "#22c55e",
+  "#4ade80",
+  "#86efac",
+  "#bbf7d0",
+  "#dcfce7",
 ];
 
-// Group small slices into "Others"
-const groupSmallSlices = (data, threshold = 0.03) => {
+// Types
+interface Summary {
+  total_visits: number;
+  unique_visitors: number;
+  date_range: {
+    start_date: string;
+    end_date: string;
+  };
+}
+
+interface Page {
+  page_title: string;
+  page_url: string;
+  visit_count: number;
+}
+
+interface Visit {
+  visit_date: string;
+  count: number;
+}
+
+interface StatItem {
+  [key: string]: string | number;
+  count: number;
+}
+
+interface AnalyticsData {
+  summary: Summary;
+  top_pages: Page[];
+  daily_visits: Visit[];
+  browser_statistics: StatItem[];
+  device_statistics: StatItem[];
+  operating_system_statistics: StatItem[];
+}
+
+// Utils
+const groupCounts = (arr: StatItem[], key: string) => {
+  const grouped: Record<string, number> = {};
+  arr.forEach((item) => {
+    const name = (item[key] as string) || "Unknown";
+    grouped[name] = (grouped[name] || 0) + item.count;
+  });
+  return Object.entries(grouped).map(([name, count]) => ({ name, count }));
+};
+
+const groupSmallSlices = (
+  data: { name: string; count: number }[],
+  threshold = 0.03
+) => {
   const total = data.reduce((sum, d) => sum + d.count, 0);
-  const grouped = [];
+  const grouped: { name: string; count: number }[] = [];
   let others = 0;
 
   data.forEach((item) => {
@@ -37,15 +84,22 @@ const groupSmallSlices = (data, threshold = 0.03) => {
     }
   });
 
-  if (others > 0) {
-    grouped.push({ name: "Others", count: others });
-  }
-
+  if (others > 0) grouped.push({ name: "Others", count: others });
   return grouped;
 };
 
-const AnalyticsDashboard = () => {
-  const [data, setData] = useState<any>(null);
+const cleanUrl = (url: string) => {
+  try {
+    const u = new URL(url, "http://localhost");
+    return u.pathname;
+  } catch {
+    return url;
+  }
+};
+
+// Component
+export default function AnalyticsDashboard() {
+  const [data, setData] = useState<AnalyticsData | null>(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -56,31 +110,17 @@ const AnalyticsDashboard = () => {
       .finally(() => setLoading(false));
   }, []);
 
-  const groupCounts = (arr: any[], key: string) => {
-    const grouped: Record<string, number> = {};
-    arr.forEach((item) => {
-      const name = item[key] || "Unknown";
-      grouped[name] = (grouped[name] || 0) + item.count;
-    });
-    return Object.entries(grouped).map(([name, count]) => ({ name, count }));
-  };
-
-  const cleanUrl = (url: string) => {
-    try {
-      const u = new URL(url, "http://localhost");
-      return u.pathname;
-    } catch {
-      return url;
-    }
-  };
-
   if (loading) {
     return (
       <AdminDashboardLayout>
-        <div className="p-6 text-gray-500">Loading analytics...</div>
+        <div className="flex justify-center items-center h-[300px] text-gray-500 text-sm">
+          Loading analytics...
+        </div>
       </AdminDashboardLayout>
     );
   }
+
+  if (!data) return null;
 
   const {
     summary,
@@ -98,23 +138,25 @@ const AnalyticsDashboard = () => {
 
         {/* Summary Cards */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-          <div className="bg-white p-4 rounded shadow border transition hover:shadow-md">
-            <p className="text-gray-500">Total Visits</p>
-            <h3 className="text-xl font-bold">{summary.total_visits}</h3>
-          </div>
-          <div className="bg-white p-4 rounded shadow border transition hover:shadow-md">
-            <p className="text-gray-500">Unique Visitors</p>
-            <h3 className="text-xl font-bold">{summary.unique_visitors}</h3>
-          </div>
-          <div className="bg-white p-4 rounded shadow border transition hover:shadow-md">
-            <p className="text-gray-500">Date Range</p>
-            <h3 className="text-sm">
-              {summary.date_range.start_date} → {summary.date_range.end_date}
-            </h3>
-          </div>
+          {[
+            { label: "Total Visits", value: summary.total_visits },
+            { label: "Unique Visitors", value: summary.unique_visitors },
+            {
+              label: "Date Range",
+              value: `${summary.date_range.start_date} → ${summary.date_range.end_date}`,
+            },
+          ].map(({ label, value }, i) => (
+            <div
+              key={i}
+              className="bg-white p-4 rounded shadow border transition hover:shadow-md"
+            >
+              <p className="text-gray-500">{label}</p>
+              <h3 className="text-lg font-bold break-words">{value}</h3>
+            </div>
+          ))}
         </div>
 
-        {/* Top Pages Table */}
+        {/* Top Pages */}
         <div>
           <h3 className="text-lg font-semibold mb-2">🏆 Top Pages</h3>
           <div className="overflow-x-auto border rounded">
@@ -127,7 +169,7 @@ const AnalyticsDashboard = () => {
                 </tr>
               </thead>
               <tbody>
-                {top_pages.map((page: any, i: number) => (
+                {top_pages.map((page, i) => (
                   <tr key={i} className="hover:bg-gray-50">
                     <td className="p-3 border">{page.page_title}</td>
                     <td className="p-3 border text-green-600 break-all">
@@ -141,10 +183,10 @@ const AnalyticsDashboard = () => {
           </div>
         </div>
 
-        {/* Daily Visits Bar Chart (Scrollable with Fixed Axes) */}
+        {/* Daily Visits Bar Chart */}
         <div>
           <h3 className="text-lg font-semibold mb-2">📆 Daily Visits</h3>
-          <div className="overflow-x-auto border rounded bg-white p-4 shadow">
+          <div className="overflow-x-auto border rounded bg-white p-4 shadow scrollbar-thin scrollbar-thumb-green-600 scrollbar-track-green-100">
             <div
               style={{
                 width: `${Math.max(daily_visits.length * 60, 900)}px`,
@@ -234,6 +276,4 @@ const AnalyticsDashboard = () => {
       </div>
     </AdminDashboardLayout>
   );
-};
-
-export default AnalyticsDashboard;
+}
